@@ -41,27 +41,32 @@ app.post("/api/users",(req,res)=>{
 
 })
 
-app.put("api/users/:id",(req,res)=>{
+app.put("/api/users/:id",(req,res)=>{
+  const { id } = req.params
   const datos = req.body;
   console.log(datos)
-  if (!("id" in datos)){
-    res.send(`No existe el campo id en ${datos}`)
+  if (!(id in users)){
+    res.send(`No existe el id ${id} en ${JSON.stringify(users)}`)
     return
   }
-  if (!(datos["id"] in users)){
-    res.send(`No existe el id en ${users}`)
+  if (!("age" in datos && "name" in datos)){
+    res.send(`No existe el campo age o name en ${JSON.stringify(datos)}`)
     return
   }
-  if (!("age" in datos || "name" in datos)){
-    res.send(`No existe el campo age o name en ${datos}`)
-    return
-  }
-  users[datos["id"]]["name"]=datos["name"]
-  users[datos["id"]]["age"]=datos["age"]
+  users[id]["name"]=datos["name"]
+  users[id]["age"]=datos["age"]
   res.send(users)
 })
 
-
+app.delete("/api/users/:id",(req,res)=>{
+  const { id } = req.params
+  if (!(id in users)){
+    res.send(`No existe el id ${id} en ${JSON.stringify(users)}`)
+    return
+  }
+  delete users[id]
+  res.send(users)
+})
 app.listen(PORT,()=>{
   console.log(`Server working in http://localhost:3000`)
 })
