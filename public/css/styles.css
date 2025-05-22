@@ -1,0 +1,123 @@
+:root {
+    --platinum: #eaeaeaff;
+    --periwinkle: #cbc5eaff;
+    --pomp-and-power: #73628aff;
+    --delft-blue: #313d5aff;
+    --gunmetal: #183642ff;
+  }
+
+  *,
+  *::before,
+  *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: open sans,sans-serif;
+  }
+  
+  body {
+    background-color: var(--gunmetal);
+    text-align: center;
+    padding: 10px;
+  }
+  .title {
+    color: var(--platinum);
+    font-size: 3em;
+  }
+  
+  .animes-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .btn {
+    width: 130px;
+    height: 40px;
+    color: var(--platinum);
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .btn-add {
+    background: linear-gradient(0deg, rgb(9, 97, 14) 0%, rgb(19, 112, 7) 100%);
+  }
+  
+  .btn-add:hover {
+    background: linear-gradient(0deg, rgb(3, 136, 25) 0%, rgb(37, 218, 1) 100%);
+  }
+  
+  .btn-show {
+    background: linear-gradient(0deg, rgba(6,14,131,1) 0%, rgba(12,25,180,1) 100%);
+  }
+  
+  .btn-show:hover {
+    background: linear-gradient(0deg, rgba(0,3,255,1) 0%, rgba(2,126,251,1) 100%);
+  }
+  
+  hr {
+    margin: 30px;
+    visibility: hidden;
+  }
+  
+  #animes-container {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    display: flex;
+    gap: 10px
+  
+  }
+  
+  .anime-box {
+    border: 3px solid var(--pomp-and-power);
+    background-color: var(--periwinkle);
+    width: 250px;
+    height: 350px;
+    text-align: left;
+    position: relative;
+  }
+  
+  img {
+    display: block;
+    margin: 10px auto;
+    width: 90%;
+    height: 50%;
+  }
+  
+  .anime-box > p {
+    margin: 5px 5px 5px 10px;
+  }
+  
+  .btn-anime {
+    width: 75px;
+    height: 30px;
+    font-size: 0.75em;
+    border: none;
+    color: var(--platinum);  
+  }
+  
+  .btn-edit {
+    background: linear-gradient(0deg, rgb(9, 97, 14) 0%, rgb(19, 112, 7) 100%);
+    position: absolute; 
+    bottom: 20px;
+    left:10%;
+  }
+  
+  .btn-edit:hover {
+    background: linear-gradient(0deg, rgb(3, 136, 25) 0%, rgb(47, 175, 21) 100%);
+  }
+  
+  .btn-delete {
+    background: linear-gradient(0deg, rgb(88, 3, 3) 0%, rgb(95, 2, 2) 100%);
+    position: absolute; 
+    bottom: 20px;
+    right: 10%;
+  }
+  
+  .btn-delete:hover {
+    background: linear-gradient(0deg, rgb(202, 4, 4) 0%, rgb(214, 6, 6) 100%);
+  }

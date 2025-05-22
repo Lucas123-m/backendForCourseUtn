@@ -6,6 +6,8 @@ const bp = require('body-parser')
 const users = {1:{name:"Lucas",age:24},2:{name:"Pedro",age:22}}
 
 app.use(bp.json())
+app.use(express.static('public'));
+
 app.get("/",(req,res)=>{
   res.send("Hola desde express")
 })
@@ -67,6 +69,11 @@ app.delete("/api/users/:id",(req,res)=>{
   delete users[id]
   res.send(users)
 })
+
+app.get("/mipagina",(req,res)=>{
+  res.sendFile(__dirname+"/public/views/index.html")
+})
+
 app.listen(PORT,()=>{
   console.log(`Server working in http://localhost:3000`)
 })
