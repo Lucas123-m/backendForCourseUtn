@@ -7,6 +7,8 @@ router.get("/",(req,res)=>{
 })
 
 router.get("/:id",(req,res)=>{
+    //queries=> url +?variable=valor&variable2=valor2 
+    console.log(req.query)
     const { id } = req.params
     res.send(users[id])
 })
