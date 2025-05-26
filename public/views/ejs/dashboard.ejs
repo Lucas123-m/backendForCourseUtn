@@ -1,3 +1,14 @@
 <%- include("./../partials/header"); %>
 <h1>dashboard</h1>
+
+
+<% for(let i=0;i<posts.length;i++) { %>
+    <article>
+        <h1><%= posts[i].id %>-<%= posts[i].title %></h1>
+        <p> <%= posts[i].body  %></p>
+    </article>
+<% } %>
+
+
+
 <%- include("./../partials/footer"); %>

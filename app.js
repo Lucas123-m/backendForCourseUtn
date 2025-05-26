@@ -24,14 +24,8 @@ app.get("/contacto",(req,res)=>{
   res.send("contacto")
 })
 
-app.get("/ejs",(req,res)=>{
-  const title  = "xdddd"
-  res.render("ejs/page",{title:title,isActive:false})  
-})
-
 app.use("/api/users",usersRouter)
 app.use("/ejs",ejsRouter)
-
 
 app.listen(PORT,()=>{
   console.log(`Server working in http://localhost:3000`)
