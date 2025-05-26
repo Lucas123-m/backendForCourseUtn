@@ -26,7 +26,7 @@ app.get("/contacto",(req,res)=>{
 
 app.get("/ejs",(req,res)=>{
   const title  = "xdddd"
-  res.render("ejs/page",{title:title})  
+  res.render("ejs/page",{title:title,isActive:false})  
 })
 
 app.use("/api/users",usersRouter)
