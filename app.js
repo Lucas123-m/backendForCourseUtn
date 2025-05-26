@@ -5,6 +5,8 @@ const bp = require('body-parser')
 const usersRouter = require("./router/users.routes")
 const ejsRouter = require("./router/ejs.routes")
 
+const db = require("./db")
+db()
 const path = require("path")
 require("ejs")
 
