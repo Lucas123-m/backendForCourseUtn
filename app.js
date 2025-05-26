@@ -3,12 +3,14 @@ const app = express()
 const PORT = 3000
 const bp = require('body-parser')
 const usersRouter = require("./router/users.routes")
+const ejsRouter = require("./router/ejs.routes")
+
 const path = require("path")
 require("ejs")
 
 const morgan = require("morgan")
-app.set("views",path.join(__dirname,"public","views"))
-app.set("view engine","ejs")
+app.set("views",path.join(__dirname,"public","views")) // como funciona este set exactamente?
+app.set("view engine","ejs") 
 
 //middleware logger
 app.use(morgan())
@@ -24,10 +26,12 @@ app.get("/contacto",(req,res)=>{
 
 app.get("/ejs",(req,res)=>{
   const title  = "xdddd"
-  res.render("page",{title:title})  
+  res.render("ejs/page",{title:title})  
 })
 
 app.use("/api/users",usersRouter)
+app.use("/ejs",ejsRouter)
+
 
 app.listen(PORT,()=>{
   console.log(`Server working in http://localhost:3000`)
