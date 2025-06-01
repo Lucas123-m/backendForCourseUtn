@@ -1,17 +1,14 @@
-const mysql2 = require("mysql2/promise")
+require('dotenv').config();
+const mysql = require('mysql2');
 
-async function connectDb(){
-    const conn = await mysql2.createConnection({
-        host:"localhost",
-        user:"root",
-        password:"",
-        database:"ANIMES_PROYECT",
-    })
-    const res = await conn.query("SELECT * from anime_series")
-    console.log(res)
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
 
-    conn.end()
-}
-
-module.exports = connectDb
-
+module.exports = pool.promise();
