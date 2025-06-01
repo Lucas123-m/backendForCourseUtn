@@ -5,6 +5,11 @@ const {
   authorizeRole,
 } = require('../middlewares/auth.middleware');
 
+const { login, register } = require('../controllers/auth.controller');
+
+router.post('/register', register);
+router.post('/login', login);
+
 // Rutas públicas protegidas: usuarios autenticados pueden ver productos
 router.get('/', productsController.getAll);
 router.get('/:id', productsController.getById);
