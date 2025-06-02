@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const productsController = require("./../controllers/product.controller")
 const {
   authenticateToken,
   authorizeRole,
@@ -7,26 +8,26 @@ const {
 
 // Rutas públicas protegidas: usuarios autenticados pueden ver productos
 router.get('/', productsController.getAll);
-router.get('/:id', productsController.getById);
+router.get('/:id', productsController.getOne);
 
 // Rutas restringidas solo a admin para modificar productos
 router.post(
   '/',
   authenticateToken,
   authorizeRole('admin'),
-  productsController.create
+  productsController.createProduct
 );
 router.put(
   '/:id',
   authenticateToken,
   authorizeRole('admin'),
-  productsController.update
+  productsController.updateProduct
 );
 router.delete(
   '/:id',
   authenticateToken,
   authorizeRole('admin'),
-  productsController.delete
+  productsController.deleteProduct
 );
 
 module.exports = router;

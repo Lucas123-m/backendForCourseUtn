@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 // ✅ Middleware: Verifica que el token JWT sea válido
 const authenticateToken = (req, res, next) => {
+  console.log(req.headers)
   const authHeader = req.headers['authorization'];
   const token = authHeader?.split(' ')[1]; // Espera formato "Bearer <token>"
 
@@ -24,7 +25,7 @@ const authenticateToken = (req, res, next) => {
 const authorizeRole = (...allowedRoles) => {
   return (req, res, next) => {
     const userRoles = req.user?.roles || [];
-
+    console.log(userRoles)
     // Verifica si al menos uno de los roles del usuario está en los roles permitidos
     const hasRole = userRoles.some((role) => allowedRoles.includes(role));
 
