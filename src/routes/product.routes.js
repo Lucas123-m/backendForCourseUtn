@@ -3,7 +3,7 @@ const router = express.Router();
 const productsController = require("./../controllers/product.controller")
 const {
   authenticateToken,
-  authorizeRole,
+  authorizePermission,
 } = require('../middlewares/auth.middleware');
 
 // Rutas públicas protegidas: usuarios autenticados pueden ver productos
@@ -14,19 +14,19 @@ router.get('/:id', productsController.getOne);
 router.post(
   '/',
   authenticateToken,
-  authorizeRole('admin'),
+  authorizePermission('product:edit'),
   productsController.createProduct
 );
 router.put(
   '/:id',
   authenticateToken,
-  authorizeRole('admin'),
+  authorizePermission('product:edit'),
   productsController.updateProduct
 );
 router.delete(
   '/:id',
   authenticateToken,
-  authorizeRole('admin'),
+  authorizePermission('product:edit'),
   productsController.deleteProduct
 );
 
