@@ -3,19 +3,18 @@ const router = express.Router()
 
 const controller = require("../controllers/anime.controller")
 
-router.get("/titles",controller.getAllAnimeTitles)
-router.get("/titles/contents",controller.getAllAnimeContent)
-router.get("/titles/:id",controller.getOneTitle)
-router.get("/titles/contents/:id",controller.getOneAnimeContent)
+router.get("/series",controller.getAllAnimeseries)
+router.get("/series/contents",controller.getAllAnimeContent)
+router.get("/series/:id",controller.getOneTitle)
+router.get("/series/contents/:id",controller.getOneAnimeContent)
 
+router.post("/series",controller.AddAnimeTitle)
+router.post("/series/contents",controller.AddAnimeContent)
 
-router.post("/titles",controller.AddAnimeTitle)
-router.post("/titles/contents",controller.AddAnimeContent)
+router.delete("/series/:id",controller.deleteAnimeTitle)
+router.delete("/series/contents/:id",controller.deleteAnimeContent)
 
-router.delete("/titles/:id",controller.deleteAnimeTitle)
-router.delete("/titles/contents/:id",controller.deleteAnimeContent)
-
-router.put("/titles/:id",controller.updateAnimetitle)
-router.put("/titles/contents/:id",controller.updateAnimeContent)
+router.put("/series/:id",controller.updateAnimetitle)
+router.put("/series/contents/:id",controller.updateAnimeContent)
 
 module.exports = router;
