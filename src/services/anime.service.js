@@ -81,3 +81,36 @@ exports.addAnime = async ({title,seasons,chapters,author,watch_status,descriptio
     );
     return rows
 }
+
+exports.addAnimeContent = async ({id_serie,title,type,watch_order,chapters,watch_status,review,duration})=>{
+    const rows = await pool.query(`
+        INSERT INTO anime_content (id_serie,title,type,watch_order,chapters,watch_status,review,duration)
+        VALUES(?,?,?,?,?,?,?,?)       
+    `,
+    [id_serie,title,type,watch_order,chapters,watch_status,review,duration]
+    );
+    return rows
+}
+
+exports.removeAnime = async(id) => {
+    const rows = await pool.query(`delete from anime_series where id = ?`,[id])
+    return rows
+}
+
+exports.removeContent = async(id) => {
+    const rows = await pool.query(`update anime_content set where id = ?`,[id])
+    return rows
+}
+
+exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review}) => {
+    const rows = await pool.query(`delete from anime_content where id = ?`,[id])
+    return rows
+}
+
+
+exports.updateContent = async(id,{id_serie,title,type,watch_order,chapters,watch_status,review,duration}) => {
+    console.log(id)
+    const rows = await pool.query(`delete from anime_content where id = ?`,[id])
+    return rows
+}
+

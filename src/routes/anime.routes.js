@@ -13,9 +13,9 @@ router.post("/titles",controller.AddAnimeTitle)
 router.post("/titles/contents",controller.AddAnimeContent)
 
 router.delete("/titles/:id",controller.deleteAnimeTitle)
-router.delete("/contents/:id",controller.deleteAnimeContent)
+router.delete("/titles/contents/:id",controller.deleteAnimeContent)
 
 router.put("/titles/:id",controller.updateAnimetitle)
-router.put("/contents/:id",controller.updateAnimeContent)
+router.put("/titles/contents/:id",controller.updateAnimeContent)
 
 module.exports = router;
