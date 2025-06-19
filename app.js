@@ -1,9 +1,8 @@
 require("dotenv").config()
 const express = require("express")
-const router = express.router()
 const animeRouter = require("./src/routes/anime.routes")
 
-const app = expres();
+const app = express();
 
 app.use(express.json())
 

@@ -13,6 +13,7 @@ exports.getAllAnimeContent = async (req, res) => {
         const animes = await service.getAllContent()
         res.json(animes)
     } catch (err) {
+        console.log(err)
         res.status(500).json({ error: 'Error al obtener contenido de anime.' });
     }
 }
