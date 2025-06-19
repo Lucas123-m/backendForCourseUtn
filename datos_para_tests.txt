@@ -1,3 +1,4 @@
+insert series
 {
     "title":"One piece",
     "seasons":"1",
@@ -15,6 +16,7 @@
     "review":"Muy entretenido."
 }
 -------------
+insert content
 {
     "id_serie":3,
     "title":"Tensura season 1",
@@ -53,4 +55,24 @@
     "watch_status":"on_hold",
     "duration":"27192",
     "review":"God one piece musical gracias a ado."
+}
+--------------------
+update content
+{
+    "title":"Tensei shitara slime datta ken",
+    "seasons":"3",
+    "chapters":"71",
+    "author":"Fuse",
+    "watch_status":"Completed",
+}
+
+{
+    "id_serie":"2",
+    "title":"Honzuki no gekokujou side stories",
+    "type":"ova",
+    "watch_order":"2",
+    "watch_status":"Completed",
+    "chapters":"1",
+    "review":"god tier ova honzuki",
+    "duration":"20"
 }

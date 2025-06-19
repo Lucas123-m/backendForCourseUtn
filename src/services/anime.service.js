@@ -103,14 +103,52 @@ exports.removeContent = async(id) => {
 }
 
 exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review}) => {
-    const rows = await pool.query(`delete from anime_content where id = ?`,[id])
+    let query = `
+    update anime_series 
+    set title = ?,
+    seasons = ?,
+    chapters = ?,
+    author = ?,
+    watch_status = ?`
+    let parameters = [title,seasons,chapters,author,watch_status]
+
+    if (description || description === null){
+        query += `,\n    description = ?`
+        parameters = parameters.concat(description)
+    }
+    if (review || review === null){
+        query += `,\n    review = ?`
+        parameters = parameters.concat(review)
+    }
+    query += `\n    where id = ?`
+    parameters = parameters.concat(id)
+    const rows = await pool.query(query,parameters)
     return rows
 }
-
 
 exports.updateContent = async(id,{id_serie,title,type,watch_order,chapters,watch_status,review,duration}) => {
-    console.log(id)
-    const rows = await pool.query(`delete from anime_content where id = ?`,[id])
+    let query = `
+    update anime_content 
+    set id_serie = ?,
+    title = ?,
+    type = ?,
+    watch_order = ?,
+    watch_status = ?,
+    duration = ?`
+    let parameters = [id_serie,title,type,watch_order,watch_status,duration]
+
+    if (chapters || chapters === null){
+        query += `,\n    chapters = ?`
+        parameters = parameters.concat(chapters)
+    }
+    if (review || review === null){
+        query += `,\n    review = ?`
+        parameters = parameters.concat(review)
+    }
+    query += `\n    where id = ?`
+    parameters = parameters.concat(id)
+    const rows = await pool.query(query,parameters)
     return rows
 }
+
 
