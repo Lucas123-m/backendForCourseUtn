@@ -1,0 +1,16 @@
+{
+    "title":"One piece",
+    "seasons":"1",
+    "chapters":"1133",
+    "author":"oda",
+    "watch_status":"on_hold"
+}
+{
+    "title":"Tensei shitara slime datta ken",
+    "seasons":"3",
+    "chapters":"72",
+    "author":"Fuse",
+    "watch_status":"Completed",
+    "description":"Isekai en un slime!",
+    "review":"Muy entretenido."
+}

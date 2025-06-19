@@ -44,15 +44,15 @@ CREATE TABLE `anime_content` (
 --
 
 INSERT INTO `anime_content` 
-(`id_serie`, `title`, `type`, `watch_order`, `chapters`, `watch_status`, `review`, `duration`) 
+(`id_serie`, `title`, `type`, `watch_order`, `chapters`, `watch_status`, `duration`) 
 VALUES
-(1, 'Bocchi the rock', 'season', 1, 12, 'completed', NULL, 240),
-(1, 'Bocchi the rock film recap part 1', 'film', 2, NULL, 'planned', NULL, 165),
-(1, 'Bocchi the rock film recap part 2', 'film', 3, NULL, 'planned', NULL, 165),
-(2, 'Honzuki no Gekokujou season 1', 'season', 1, 14, 'completed', NULL, 280),
-(2, 'Honzuki no Gekokujou season 2', 'season', 2, 12, 'completed', NULL, 240),
-(2, 'Honzuki no Gekokujou season 3', 'season', 3, 10, 'completed', NULL, 200),
-(2, 'Honzuki no Gekokujou side stories', 'ova', 2, 1, 'completed', NULL, 20);
+(1, 'Bocchi the rock', 'season', 1, 12, 'completed', 240),
+(1, 'Bocchi the rock film recap part 1', 'film', 2, NULL,'planned', 165),
+(1, 'Bocchi the rock film recap part 2', 'film', 3, NULL,'planned', 165),
+(2, 'Honzuki no Gekokujou season 1', 'season', 1, 14, 'completed', 280),
+(2, 'Honzuki no Gekokujou season 2', 'season', 2, 12, 'completed', 240),
+(2, 'Honzuki no Gekokujou season 3', 'season', 3, 10, 'completed', 200),
+(2, 'Honzuki no Gekokujou side stories', 'ova', 2, 1, 'completed', 20);
 
 -- --------------------------------------------------------
 
@@ -75,9 +75,9 @@ CREATE TABLE `anime_series` (
 -- Dumping data for table `anime_series`
 --
 
-INSERT INTO `anime_series` (`title`, `seasons`, `chapters`, `author`, `watch_status`, `description`, `review`) VALUES
-('Bocchi the rock', 1, 12, 'Aki Hamazi', 'planned', NULL, NULL),
-('Honzuki no Gekokujō: Shisho ni Naru Tame niwa Shudan o Erandeiraremasen', 3, 36, 'Miya Kazuki', 'completed', NULL, NULL);
+INSERT INTO `anime_series` (`title`, `seasons`, `chapters`, `author`, `watch_status`) VALUES
+('Bocchi the rock', 1, 12, 'Aki Hamazi', 'planned'),
+('Honzuki no Gekokujō: Shisho ni Naru Tame niwa Shudan o Erandeiraremasen', 3, 36, 'Miya Kazuki', 'completed');
 
 --
 -- Indexes for dumped tables

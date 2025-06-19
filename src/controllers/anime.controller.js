@@ -13,25 +13,28 @@ exports.getAllAnimeContent = async (req, res) => {
         const animes = await service.getAllContent()
         res.json(animes)
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al obtener contenido de anime.' });
     }
 }
 exports.getOneTitle = async (req, res) => {
     try {
-        const anime = service.getAnime(req.params.id)
-        if (!anime){
+        const anime = await service.getAnime(req.params.id)
+        console.log(anime)
+        if (!anime.length){
             return res.status(404).json({error:"Anime no encontrado."})
-        }
+        } 
+        
         res.json(anime)
+        
     } catch (err) {
         res.status(500).json({ error: 'Error al obtener un anime.' });
     }
 }
 exports.getOneAnimeContent = async (req, res) => {
     try {
-        const content = service.getAnimeContent(req.params.id)
-        if (!content){
+        const content = await service.getAnimeContent(req.params.id)
+        console.log(content)
+        if (!content.length){
             return res.status(404).json({error:"Contenido no encontrado."})
         }
         res.json(content)
@@ -43,8 +46,10 @@ exports.getOneAnimeContent = async (req, res) => {
 exports.AddAnimeTitle = async (req, res) => {
     try {
         const anime = await service.addAnime(req.body)
+        //console.log("insertando:",anime)
         res.status(201).json(anime);
     } catch (err) {
+        console.log(err)
         res.status(500).json({ error: 'Error al intentar agregar un anime.' });
     }
 }
