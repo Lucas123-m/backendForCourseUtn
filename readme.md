@@ -16,19 +16,32 @@ Algunos campos en ambas tablas les puse default null porque no son obligatorios 
 API - Endpoints:
 
 Creo 4 endpoints para obtener informacion (metodo GET):
+
 obtener todas las series => /animes/series
+
 obtener todos los contenidos de todas las series => /animes/series/contents
+
 obtener una serie en base al id => /animes/series/:id
+
 obtener un contenido en base al id => /animes/series/contents/:id
 
+
 Creo 2 endpoints para agregar informacion (metodo POST):
+
 agregar una serie => /animes/series/
+
 agregar un contenido => /animes/series/contents/:id
 
+
 Creo 2 endpoints para actualizar informacion (metodo PUT):
+
 actualizar una serie en base al id => /animes/series/
+
 actualizar un contenido en base al id => /animes/series/contents/:id
 
+
 Creo 2 endpoints para elimnar informacion (metodo DELETE):
+
 borrar una serie en base al id => /animes/series/
+
 borrar un contenido en base al id => /animes/series/contents/:id
