@@ -2,7 +2,8 @@ Descripcion general: API para hacer operaciones basicas (CRUD) con series de ani
 
 BBDD:
 El archivo init.sql crea las tablas e inserta un par de registros.
-Se crean 2 tablas en mysql, anime_series y anime_content. 
+Se crean 2 tablas en mysql, anime_series y anime_content.
+
 anime_series: se registra el titulo que se toma como "principal" del anime.
 anime_content: se registran todos los posibles elementos / contenidos de la historia para ver y el orden correspondiente, siempre asociados a una serie en anime_series.
 
