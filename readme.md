@@ -2,9 +2,12 @@
 
 API para hacer operaciones basicas (CRUD) con series de animes (titulo, capitulos, autor, estado de visualización, etc.).
 
+# Librerias.
+ Se deben instalar con npm express, mysql2 y dotenv. Se deja un archivo .env.example para configurar los datos de conexion con la bbdd. 
+
 # BBDD:
 
-El archivo init.sql crea las tablas e inserta un par de registros.
+El archivo **init.sql** crea las tablas e inserta un par de registros.
 Se crean 2 tablas en mysql, anime_series y anime_content.
 
 anime_series: se registra el titulo que se toma como "principal" del anime.

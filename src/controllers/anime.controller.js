@@ -3,6 +3,9 @@ const service = require("../services/anime.service")
 exports.getAllAnimeSeries = async (req, res) => {
     try {
         const animes = await service.getAllAnimes()
+        if (!animes.length){
+            return res.status(200).json({info:"No hay series de anime registradas en la base de datos."})
+        }
         res.json(animes)
     } catch (err) {
         res.status(500).json({ error: 'Error al obtener animes.' });
@@ -10,8 +13,11 @@ exports.getAllAnimeSeries = async (req, res) => {
 }
 exports.getAllAnimeContent = async (req, res) => {
     try {
-        const animes = await service.getAllContent()
-        res.json(animes)
+        const contenidos = await service.getAllContent()
+        if (!contenidos.length){
+            return res.status(200).json({info:"No hay contenidos de anime registrados en la base de datos."})
+        }
+        res.json(contenidos)
     } catch (err) {
         res.status(500).json({ error: 'Error al obtener contenido de anime.' });
     }
@@ -44,7 +50,7 @@ exports.getOneAnimeContent = async (req, res) => {
 exports.AddAnimeSerie = async (req, res) => {
     try {
         const anime = await service.addAnime(req.body)
-        res.status(201).json(anime);
+        res.status(201).json({info:"Se ha agregado un anime correctamente."});
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar agregar un anime.' });
     }
@@ -52,7 +58,7 @@ exports.AddAnimeSerie = async (req, res) => {
 exports.AddAnimeContent = async (req, res) => {
     try {
         const content = await service.addAnimeContent(req.body)
-        res.status(201).json(content);
+        res.status(201).json({info:"Se ha agregado un contenido correctamente."});
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
@@ -61,6 +67,9 @@ exports.AddAnimeContent = async (req, res) => {
 exports.deleteAnimeSerie = async (req, res) => {
     try {
         const deleted = await service.removeAnime(req.params.id);
+        if (!deleted[0].changedRows){
+            return res.json({info:"No hay series de anime con el id informado."})
+        }
         res.json(deleted);
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar borrar un anime.' });
@@ -69,6 +78,9 @@ exports.deleteAnimeSerie = async (req, res) => {
 exports.deleteAnimeContent = async (req, res) => {
     try {
         const deleted = await service.removeContent(req.params.id);
+        if (!deleted[0].changedRows){
+            return res.json({info:"No hay contenidos de anime con el id informado."})
+        }
         res.json(deleted);
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
@@ -77,7 +89,12 @@ exports.deleteAnimeContent = async (req, res) => {
 exports.updateAnimeSerie = async (req, res) => {
     try {
         const updated = await service.updateAnime(req.params.id, req.body);
-        res.json(updated);
+        if (!updated[0].affectedRows){
+            return res.json({info:"No hay animes con el id informado."})
+        } else if (!updated[0].changedRows){
+            return res.json({info:"No se hicieron cambios en el anime informado."})
+        }
+        res.json({info:"Se ha actualizado el anime correctamente."});
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar actualizar datos de un anime.' });
     }
@@ -85,7 +102,12 @@ exports.updateAnimeSerie = async (req, res) => {
 exports.updateAnimeContent = async (req, res) => {
     try {
         const updated = await service.updateContent(req.params.id, req.body);
-        res.json(updated);
+        if (!updated[0].affectedRows){
+            return res.json({info:"No hay contenidos de anime con el id informado."})
+        } else if (!updated[0].changedRows){
+            return res.json({info:"No se hicieron cambios en el contenido informado."})
+        }
+        res.json({info:"Se ha actualizado el contenido correctamente."});
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar actualizar datos de un contenido de anime.' });
     }
