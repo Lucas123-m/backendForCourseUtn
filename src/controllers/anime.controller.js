@@ -1,6 +1,6 @@
 const service = require("../services/anime.service")
 
-exports.getAllAnimeTitles = async (req, res) => {
+exports.getAllAnimeSeries = async (req, res) => {
     try {
         const animes = await service.getAllAnimes()
         res.json(animes)
@@ -16,10 +16,9 @@ exports.getAllAnimeContent = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener contenido de anime.' });
     }
 }
-exports.getOneTitle = async (req, res) => {
+exports.getOneAnimeSerie = async (req, res) => {
     try {
         const anime = await service.getAnime(req.params.id)
-        console.log(anime)
         if (!anime.length){
             return res.status(404).json({error:"Anime no encontrado."})
         } 
@@ -33,7 +32,6 @@ exports.getOneTitle = async (req, res) => {
 exports.getOneAnimeContent = async (req, res) => {
     try {
         const content = await service.getAnimeContent(req.params.id)
-        console.log(content)
         if (!content.length){
             return res.status(404).json({error:"Contenido no encontrado."})
         }
@@ -43,7 +41,7 @@ exports.getOneAnimeContent = async (req, res) => {
     }
 }
 
-exports.AddAnimeTitle = async (req, res) => {
+exports.AddAnimeSerie = async (req, res) => {
     try {
         const anime = await service.addAnime(req.body)
         res.status(201).json(anime);
@@ -56,12 +54,11 @@ exports.AddAnimeContent = async (req, res) => {
         const content = await service.addAnimeContent(req.body)
         res.status(201).json(content);
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
 }
 
-exports.deleteAnimeTitle = async (req, res) => {
+exports.deleteAnimeSerie = async (req, res) => {
     try {
         const deleted = await service.removeAnime(req.params.id);
         res.json(deleted);
@@ -77,7 +74,7 @@ exports.deleteAnimeContent = async (req, res) => {
         res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
     }
 }
-exports.updateAnimetitle = async (req, res) => {
+exports.updateAnimeSerie = async (req, res) => {
     try {
         const updated = await service.updateAnime(req.params.id, req.body);
         res.json(updated);
