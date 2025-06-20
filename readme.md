@@ -1,6 +1,9 @@
-Descripcion general: API para hacer operaciones basicas (CRUD) con series de animes (titulo, capitulos, autor, estado de visualización, etc.).
+Descripcion general: 
+
+API para hacer operaciones basicas (CRUD) con series de animes (titulo, capitulos, autor, estado de visualización, etc.).
 
 BBDD:
+
 El archivo init.sql crea las tablas e inserta un par de registros.
 Se crean 2 tablas en mysql, anime_series y anime_content.
 
@@ -11,6 +14,7 @@ En ambas tablas existe una columna "id" como primary key con auto_increment. En 
 Algunos campos en ambas tablas les puse default null porque no son obligatorios o se pueden agregar en un momento distinto a cuando se crea un nuevo registro.
 
 API - Endpoints:
+
 Creo 4 endpoints para obtener informacion (metodo GET):
 obtener todas las series => /animes/series
 obtener todos los contenidos de todas las series => /animes/series/contents
