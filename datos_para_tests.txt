@@ -4,7 +4,8 @@ insert series
     "seasons":"1",
     "chapters":"1133",
     "author":"oda",
-    "watch_status":"on_hold"
+    "watch_status":"on_hold",
+    "imgSrc":null
 }
 {
     "title":"Tensei shitara slime datta ken",
@@ -13,7 +14,8 @@ insert series
     "author":"Fuse",
     "watch_status":"Completed",
     "description":"Isekai en un slime!",
-    "review":"Muy entretenido."
+    "review":"Muy entretenido.",
+    "imgSrc":"https://res.cloudinary.com/dgak0vgg2/image/upload/v1750817538/u0d1ugy1bhylcwihxizr.jpg"
 }
 -------------
 insert content

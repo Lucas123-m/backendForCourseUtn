@@ -1,6 +1,6 @@
 const service = require("../services/anime.service")
 
-exports.getAllAnimeTitles = async (req, res) => {
+exports.getAllAnimeSeries = async (req, res) => {
     try {
         const animes = await service.getAllAnimes()
         res.json(animes)
@@ -16,7 +16,7 @@ exports.getAllAnimeContent = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener contenido de anime.' });
     }
 }
-exports.getOneTitle = async (req, res) => {
+exports.getOneSerie = async (req, res) => {
     try {
         const anime = await service.getAnime(req.params.id)
         console.log(anime)
@@ -43,7 +43,7 @@ exports.getOneAnimeContent = async (req, res) => {
     }
 }
 
-exports.AddAnimeTitle = async (req, res) => {
+exports.AddAnimeSerie = async (req, res) => {
     try {
         const anime = await service.addAnime(req.body)
         res.status(201).json(anime);
@@ -61,7 +61,7 @@ exports.AddAnimeContent = async (req, res) => {
     }
 }
 
-exports.deleteAnimeTitle = async (req, res) => {
+exports.deleteAnimeSerie = async (req, res) => {
     try {
         const deleted = await service.removeAnime(req.params.id);
         res.json(deleted);
@@ -77,7 +77,7 @@ exports.deleteAnimeContent = async (req, res) => {
         res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
     }
 }
-exports.updateAnimetitle = async (req, res) => {
+exports.updateAnimeSerie = async (req, res) => {
     try {
         const updated = await service.updateAnime(req.params.id, req.body);
         res.json(updated);
