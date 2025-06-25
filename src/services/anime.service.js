@@ -10,7 +10,8 @@ exports.getAllAnimes = async() =>{
         a.author,
         a.watch_status,
         a.description,
-        a.review
+        a.review,
+        a.imgSrc
         FROM anime_series a      
     `);
     return rows;
@@ -43,7 +44,8 @@ exports.getAnime = async (id) => {
         a.author,
         a.watch_status,
         a.description,
-        a.review
+        a.review,
+        a.imgSrc
         FROM anime_series a  
         WHERE a.id = ?
     `,
@@ -102,15 +104,16 @@ exports.removeContent = async(id) => {
     return rows
 }
 
-exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review}) => {
+exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review,imgSrc}) => {
     let query = `
     update anime_series 
     set title = ?,
     seasons = ?,
     chapters = ?,
     author = ?,
-    watch_status = ?`
-    let parameters = [title,seasons,chapters,author,watch_status]
+    watch_status = ?,
+    imgSrc = ?`
+    let parameters = [title,seasons,chapters,author,watch_status,imgSrc]
 
     if (description || description === null){
         query += `,\n    description = ?`
