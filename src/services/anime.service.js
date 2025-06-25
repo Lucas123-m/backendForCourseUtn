@@ -72,12 +72,12 @@ exports.getAnimeContent = async (id) => {
     return row
 }
 
-exports.addAnime = async ({title,seasons,chapters,author,watch_status,description,review})=>{
+exports.addAnime = async ({title,seasons,chapters,author,watch_status,description,review,imgSrc})=>{
     const rows = await pool.query(`
-        insert into anime_series (title,seasons,chapters,author,watch_status,description,review)
-        values (?,?,?,?,?,?,?)        
+        insert into anime_series (title,seasons,chapters,author,watch_status,description,review,imgSrc)
+        values (?,?,?,?,?,?,?,?)        
     `,
-    [title,seasons,chapters,author,watch_status,description,review]
+    [title,seasons,chapters,author,watch_status,description,review,imgSrc]
     );
     return rows
 }
