@@ -111,9 +111,8 @@ exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,descr
     seasons = ?,
     chapters = ?,
     author = ?,
-    watch_status = ?,
-    imgSrc = ?`
-    let parameters = [title,seasons,chapters,author,watch_status,imgSrc]
+    watch_status = ?`
+    let parameters = [title,seasons,chapters,author,watch_status]
 
     if (description || description === null){
         query += `,\n    description = ?`
@@ -122,6 +121,10 @@ exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,descr
     if (review || review === null){
         query += `,\n    review = ?`
         parameters = parameters.concat(review)
+    }
+    if (imgSrc || imgSrc === null){
+        query += `,\n    review = ?`
+        parameters = parameters.concat(imgSrc)
     }
     query += `\n    where id = ?`
     parameters = parameters.concat(id)
