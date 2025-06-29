@@ -101,7 +101,7 @@ exports.removeAnime = async(id) => {
 }
 
 exports.removeContent = async(id) => {
-    const rows = await pool.query(`update anime_content set where id = ?`,[id])
+    const rows = await pool.query(`delete from anime_content where id = ?`,[id])
     return rows
 }
 
