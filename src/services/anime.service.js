@@ -21,8 +21,9 @@ exports.getAllContent = async () => {
     const [rows] = await pool.query(`
         SELECT
         a.id,
+        a.id_serie,
         b.title as title_serie,
-        a.title as title_cotent,
+        a.title as title_content,
         a.type,
         a.watch_order,
         a.chapters,
