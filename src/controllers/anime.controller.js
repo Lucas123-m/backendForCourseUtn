@@ -19,7 +19,6 @@ exports.getAllAnimeContent = async (req, res) => {
 exports.getOneSerie = async (req, res) => {
     try {
         const anime = await service.getAnime(req.params.id)
-        console.log(anime)
         if (!anime.length){
             return res.status(404).json({error:"Anime no encontrado."})
         } 
@@ -33,7 +32,6 @@ exports.getOneSerie = async (req, res) => {
 exports.getOneAnimeContent = async (req, res) => {
     try {
         const content = await service.getAnimeContent(req.params.id)
-        console.log(content)
         if (!content.length){
             return res.status(404).json({error:"Contenido no encontrado."})
         }
@@ -56,7 +54,6 @@ exports.AddAnimeContent = async (req, res) => {
         const content = await service.addAnimeContent(req.body)
         res.status(201).json(content);
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
 }
