@@ -64,6 +64,7 @@ exports.getAnimeContent = async (id) => {
         a.title as title_content,
         a.type,
         a.watch_order,
+        a.watch_status,
         a.chapters,
         a.review,
         a.duration
