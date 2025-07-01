@@ -77,12 +77,12 @@ exports.getAnimeContent = async (id) => {
     return row
 }
 
-exports.addAnime = async ({title,seasons,chapters,author,watch_status,description,review,imgSrc})=>{
+exports.addAnime = async ({title,seasons,chapters,author,watch_status,description,review,imgSrc,filename})=>{
     const rows = await pool.query(`
-        insert into anime_series (title,seasons,chapters,author,watch_status,description,review,imgSrc)
-        values (?,?,?,?,?,?,?,?)        
+        insert into anime_series (title,seasons,chapters,author,watch_status,description,review,imgSrc,filename)
+        values (?,?,?,?,?,?,?,?,?)        
     `,
-    [title,seasons,chapters,author,watch_status,description,review,imgSrc]
+    [title,seasons,chapters,author,watch_status,description,review,imgSrc,filename]
     );
     return rows
 }
@@ -107,7 +107,7 @@ exports.removeContent = async(id) => {
     return rows
 }
 
-exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review,imgSrc}) => {
+exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review,imgSrc,filename}) => {
     let query = `
     update anime_series 
     set title = ?,
@@ -126,8 +126,10 @@ exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,descr
         parameters = parameters.concat(review)
     }
     if (imgSrc || imgSrc === null){
-        query += `,\n    review = ?`
+        query += `,\n    imgSrc = ?`
+        query += `,\n    filename = ?`
         parameters = parameters.concat(imgSrc)
+        parameters = parameters.concat(filename)
     }
     query += `\n    where id = ?`
     parameters = parameters.concat(id)
