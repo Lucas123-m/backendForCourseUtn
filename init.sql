@@ -71,16 +71,17 @@ CREATE TABLE `anime_series` (
   `watch_status` enum('planned','watching','completed','on_hold','dropped') NOT NULL,
   `description` text DEFAULT NULL,
   `review` text DEFAULT NULL,
-  `imgSrc` text DEFAULT NULL
+  `imgSrc` text DEFAULT NULL,
+  `filename` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `anime_series`
 --
 
-INSERT INTO `anime_series` (`title`, `seasons`, `chapters`, `author`, `watch_status`,`imgSrc`) VALUES
-('Bocchi the rock', 1, 12, 'Aki Hamazi', 'planned','https://res.cloudinary.com/dgak0vgg2/image/upload/v1750817681/j6tdvcrigap55gxr3ncn.jpg'),
-('Honzuki no Gekokujō: Shisho ni Naru Tame niwa Shudan o Erandeiraremasen', 3, 36, 'Miya Kazuki', 'completed','https://res.cloudinary.com/dgak0vgg2/image/upload/v1750820467/dqz5jhzqgskdehzht9gn.jpg');
+INSERT INTO `anime_series` (`title`, `seasons`, `chapters`, `author`, `watch_status`) VALUES
+('Bocchi the rock', 1, 12, 'Aki Hamazi', 'planned'),
+('Honzuki no Gekokujō: Shisho ni Naru Tame niwa Shudan o Erandeiraremasen', 3, 36, 'Miya Kazuki', 'completed');
 
 --
 -- Indexes for dumped tables
