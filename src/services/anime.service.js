@@ -10,7 +10,8 @@ exports.getAllAnimes = async() =>{
         a.author,
         a.watch_status,
         a.description,
-        a.review
+        a.review,
+        a.idImage
         FROM anime_series a   
     `);
     return rows;
