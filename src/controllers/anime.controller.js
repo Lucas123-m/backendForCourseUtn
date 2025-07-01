@@ -8,17 +8,14 @@ exports.getAllAnimeSeries = async (req, res) => {
         }
         res.json(animes)
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al obtener animes.' });
     }
 }
 exports.getImages = async (req, res) => {
     try {
         const images = await service.getAllImages()
-        console.log(images)
         res.json(images)
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al obtener imagenes.' });
     }
 }
@@ -30,7 +27,6 @@ exports.getOneImage = async (req, res) => {
         }
         res.json(image)
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al obtener imagen.' });
     }
 }
@@ -56,7 +52,6 @@ exports.getOneAnimeSerie = async (req, res) => {
         res.json(anime)
         
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al obtener un anime.' });
     }
 }
@@ -94,7 +89,6 @@ exports.AddImage = async (req, res) => {
         const content = await service.addAnimeImage(req.body)
         res.status(201).json(content);
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
 }
