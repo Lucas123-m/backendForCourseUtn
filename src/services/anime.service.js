@@ -10,10 +10,32 @@ exports.getAllAnimes = async() =>{
         a.author,
         a.watch_status,
         a.description,
-        a.review,
-        a.imgSrc
-        FROM anime_series a      
+        a.review
+        FROM anime_series a   
     `);
+    return rows;
+}
+
+exports.getAllImages = async() =>{
+    const [rows] = await pool.query(`
+        SELECT
+        a.id,
+        a.url,
+        a.name
+        FROM anime_images a      
+    `);
+    return rows;
+}
+
+exports.getImage = async(id) =>{
+    const [rows] = await pool.query(`
+        SELECT
+        a.id,
+        a.url,
+        a.name
+        FROM anime_images a 
+        where a.id = ?     
+    `,[id]);
     return rows;
 }
 
@@ -45,8 +67,7 @@ exports.getAnime = async (id) => {
         a.author,
         a.watch_status,
         a.description,
-        a.review,
-        a.imgSrc
+        a.review
         FROM anime_series a  
         WHERE a.id = ?
     `,
@@ -97,6 +118,15 @@ exports.addAnimeContent = async ({id_serie,title,type,watch_order,chapters,watch
     return rows
 }
 
+exports.addAnimeImage = async ({url,name})=>{
+    const rows = await pool.query(`
+        INSERT INTO anime_images (url,name)
+        VALUES(?,?)       
+    `,
+    [url,name]
+    );
+    return rows
+}
 exports.removeAnime = async(id) => {
     const rows = await pool.query(`delete from anime_series where id = ?`,[id])
     return rows
@@ -107,7 +137,7 @@ exports.removeContent = async(id) => {
     return rows
 }
 
-exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review,imgSrc,filename}) => {
+exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review,idImage}) => {
     let query = `
     update anime_series 
     set title = ?,
@@ -125,11 +155,9 @@ exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,descr
         query += `,\n    review = ?`
         parameters = parameters.concat(review)
     }
-    if (imgSrc || imgSrc === null){
-        query += `,\n    imgSrc = ?`
-        query += `,\n    filename = ?`
-        parameters = parameters.concat(imgSrc)
-        parameters = parameters.concat(filename)
+    if (idImage || idImage === null){
+        query += `,\n    idImage = ?`
+        parameters = parameters.concat(idImage)
     }
     query += `\n    where id = ?`
     parameters = parameters.concat(id)
@@ -161,5 +189,8 @@ exports.updateContent = async(id,{id_serie,title,type,watch_order,chapters,watch
     const rows = await pool.query(query,parameters)
     return rows
 }
-
+exports.updateImage = async(id,{url,name}) => {
+    const rows = await pool.query(`update anime_images set name=?,url=? where id = ?`,[name,url,id])
+    return rows
+}
 

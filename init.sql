@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS anime_content,anime_series;
+DROP TABLE IF EXISTS anime_content,anime_series,anime_images;
 
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
@@ -57,7 +57,17 @@ VALUES
 (2, 'Honzuki no Gekokujou side stories', 'ova', 2, 1, 'completed', 20);
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `anime_images`
+--
 
+CREATE TABLE `anime_images` (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `url` varchar (255) NOT NULL UNIQUE,
+  `name` varchar(255) NOT NULL UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 --
 -- Table structure for table `anime_series`
 --
@@ -71,8 +81,7 @@ CREATE TABLE `anime_series` (
   `watch_status` enum('planned','watching','completed','on_hold','dropped') NOT NULL,
   `description` text DEFAULT NULL,
   `review` text DEFAULT NULL,
-  `imgSrc` text DEFAULT NULL,
-  `filename` text DEFAULT NULL
+  `idImage` INT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -96,6 +105,12 @@ ALTER TABLE `anime_content`
 ALTER TABLE `anime_content`
 ADD CONSTRAINT `serie` FOREIGN KEY (`id_serie`) REFERENCES `anime_series` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+--
+-- Indexes for table `anime_series`
+--
+
+ALTER TABLE `anime_series`
+ADD CONSTRAINT `image` FOREIGN KEY (`idImage`) REFERENCES `anime_images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
