@@ -27,7 +27,7 @@ exports.uploadImage = async (file) => {
   const responseImg = await fetch(url_post,{method:"POST",body: formImg})
   const uploadedImageUrl = await responseImg.json()
   console.log("respuesta:",uploadedImageUrl)
-  return uploadedImageUrl.url
+  return uploadedImageUrl
 };
 
 /////////////////////////////////////
@@ -50,8 +50,7 @@ const getAssetInfo = async (publicId) => {
     }
 };
 
-const deleteAsset = async (public_id)=>{
-    cloudinary.uploader
-    .destroy(public_id)
-    .then(result => console.log(result));
+exports.deleteImage = async (public_id)=>{
+    const res = cloudinary.uploader.destroy(public_id)
+    return res
 }

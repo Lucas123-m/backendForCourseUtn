@@ -120,12 +120,12 @@ exports.addAnimeContent = async ({id_serie,title,type,watch_order,chapters,watch
     return rows
 }
 
-exports.addAnimeImage = async (url,{name})=>{
+exports.addAnimeImage = async ({public_id,url},{name})=>{
     const rows = await pool.query(`
-        INSERT INTO anime_images (url,name)
-        VALUES(?,?)       
+        INSERT INTO anime_images (url,name,public_id)
+        VALUES(?,?,?)       
     `,
-    [url,name]
+    [url,name,public_id]
     );
     return rows
 }

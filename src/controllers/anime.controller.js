@@ -87,8 +87,8 @@ exports.AddAnimeContent = async (req, res) => {
 
 exports.AddImage = async (req, res) => {
     try {
-        const url = await serviceImg.uploadImage(req.file)
-        const content = await service.addAnimeImage(url,req.body)
+        const data = await serviceImg.uploadImage(req.file)
+        const content = await service.addAnimeImage(data,req.body)
         res.status(201).json(content);
     } catch (err) {
         console.log(err)
@@ -122,6 +122,11 @@ exports.deleteAnimeContent = async (req, res) => {
 exports.deleteImage = async (req, res) => {
     try {
         console.log("id:",req.params.id,typeof(req.params.id))
+        const images = await service.getAllImages()
+        console.log(images)
+        const public_id = (images.filter((elem)=>elem.id === req.params.id)).public_id
+        const deleteImage = await serviceImg.deleteImage(public_id)
+        console.log("borrar en cloudinary, resultado:",deleteImage)
         const deleted = await service.removeImage(req.params.id);
         console.log(deleted)
         if (!deleted[0].affectedRows){

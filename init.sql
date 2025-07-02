@@ -64,7 +64,8 @@ VALUES
 CREATE TABLE `anime_images` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
   `url` varchar (255) NOT NULL UNIQUE,
-  `name` varchar(255) NOT NULL UNIQUE
+  `name` varchar(255) NOT NULL UNIQUE,
+  `public_id` VARCHAR (255) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
