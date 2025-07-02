@@ -96,7 +96,7 @@ exports.AddImage = async (req, res) => {
 exports.deleteAnimeSerie = async (req, res) => {
     try {
         const deleted = await service.removeAnime(req.params.id);
-        if (!deleted[0].changedRows){
+        if (!deleted[0].affectedRows){
             return res.json({info:"No hay series de anime con el id informado."})
         }
         res.json(deleted);
@@ -107,7 +107,7 @@ exports.deleteAnimeSerie = async (req, res) => {
 exports.deleteAnimeContent = async (req, res) => {
     try {
         const deleted = await service.removeContent(req.params.id);
-        if (!deleted[0].changedRows){
+        if (!deleted[0].affectedRows){
             return res.json({info:"No hay contenidos de anime con el id informado."})
         }
         res.json(deleted);
@@ -115,6 +115,21 @@ exports.deleteAnimeContent = async (req, res) => {
         res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
     }
 }
+
+exports.deleteImage = async (req, res) => {
+    try {
+        console.log("id:",req.params.id,typeof(req.params.id))
+        const deleted = await service.removeImage(req.params.id);
+        console.log(deleted)
+        if (!deleted[0].affectedRows){
+            return res.json({info:"No hay una imagen con el id informado."})
+        }
+        res.json(deleted);
+    } catch (err) {
+        res.status(500).json({ error: 'Error al intentar borrar una imagen de la bbdd...' });
+    }
+}
+
 exports.updateAnimeSerie = async (req, res) => {
     try {
         const updated = await service.updateAnime(req.params.id, req.body);
@@ -140,4 +155,18 @@ exports.updateAnimeContent = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar actualizar datos de un contenido de anime.' });
     }
-}    
+} 
+
+exports.updateImage = async (req, res) => {
+    try {
+        const updated = await service.updateImage(req.params.id, req.body);
+        if (!updated[0].affectedRows){
+            return res.json({info:"No hay imagen con el id informado."})
+        } else if (!updated[0].changedRows){
+            return res.json({info:"No se hicieron cambios en la imagen informado."})
+        }
+        res.json({info:"Se ha actualizado la imagen correctamente."});
+    } catch (err) {
+        res.status(500).json({ error: 'Error al intentar actualizar datos de una imagen.' });
+    }
+} 

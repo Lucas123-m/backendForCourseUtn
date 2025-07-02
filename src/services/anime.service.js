@@ -139,6 +139,11 @@ exports.removeContent = async(id) => {
     return rows
 }
 
+exports.removeImage = async(id) => {
+    const rows = await pool.query(`delete from anime_images where id = ?`,[parseInt(id)])
+    return rows
+}
+
 exports.updateAnime = async(id,{title,seasons,chapters,author,watch_status,description,review,idImage}) => {
     let query = `
     update anime_series 
