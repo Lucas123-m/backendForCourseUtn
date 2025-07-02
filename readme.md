@@ -3,7 +3,11 @@
 API para hacer operaciones basicas (CRUD) con series de animes (titulo, capitulos, autor, estado de visualización, gestionar imagenes, etc.).
 
 # Librerias.
- Se deben instalar con npm express, mysql2, cors y dotenv. Se deja un archivo .env.example para configurar los datos de conexion con la bbdd. 
+Se deben instalar con npm express, mysql2, cors, multer y dotenv, proximamente tambien cloudinary. Se deja un archivo .env.example para configurar los datos de conexion con la bbdd y cloduinary.
+
+# Configurar cloudinary
+Se debe iniciar sesion en cloudinary y crear un preset para poder obtener process.env.PRESET_NAME. process.env.CLOUD_NAME con solo iniciar sesion se debe obtener. 
+Seguir tutorial https://www.youtube.com/watch?v=maXqEICuPIE mins 02:30 a 03:30 
 
 # BBDD:
 
