@@ -7,7 +7,10 @@ Se deben instalar con npm express, mysql2, cors, multer y dotenv, proximamente t
 
 # Configurar cloudinary
 Se debe iniciar sesion en cloudinary y crear un preset para poder obtener process.env.PRESET_NAME. process.env.CLOUD_NAME con solo iniciar sesion se debe obtener. 
-Seguir tutorial https://www.youtube.com/watch?v=maXqEICuPIE mins 02:30 a 03:30 
+Seguir tutorial https://www.youtube.com/watch?v=maXqEICuPIE mins 02:30 a 03:30
+
+Ademas, se debe ejecutar export/set CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME (el comando depende de si se usa mac/linux o windows, respectivamente) luego de clonar el repositorio con git clone, a la altura de la raiz. Reemaplazar los datos con el valor que se encuentra en "settings / api keys" al iniciar sesion en cloudinary. El cloudname es el mismo que el referenciado en el tutorial anterior.
+
 
 # BBDD:
 
