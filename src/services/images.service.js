@@ -13,7 +13,6 @@ console.log(cloudinary.config());
 // Uploads an image file
 /////////////////////////
 exports.uploadImage = async (file) => {
-  console.log("file en upload image service: ",file)
   const formImg = new FormData()
   const cloud_name = process.env.CLOUD_NAME
   const url_post = `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`
@@ -26,7 +25,6 @@ exports.uploadImage = async (file) => {
   formImg.append("cloud_name",cloud_name)
   const responseImg = await fetch(url_post,{method:"POST",body: formImg})
   const uploadedImageUrl = await responseImg.json()
-  console.log("respuesta:",uploadedImageUrl)
   return uploadedImageUrl
 };
 
@@ -43,7 +41,6 @@ const getAssetInfo = async (publicId) => {
     try {
         // Get details about the asset
         const result = await cloudinary.api.resource(publicId, options);
-        console.log(result);
         return result.colors;
         } catch (error) {
         console.error(error);
