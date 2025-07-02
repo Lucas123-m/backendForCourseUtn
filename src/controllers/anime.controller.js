@@ -1,4 +1,5 @@
-const service = require("../services/anime.service")
+const service = require("../services/animeBD.service")
+const serviceImg = require("../services/images.service")
 
 exports.getAllAnimeSeries = async (req, res) => {
     try {
@@ -86,9 +87,11 @@ exports.AddAnimeContent = async (req, res) => {
 
 exports.AddImage = async (req, res) => {
     try {
-        const content = await service.addAnimeImage(req.body)
+        const url = await serviceImg.uploadImage(req.file)
+        const content = await service.addAnimeImage(url,req.body)
         res.status(201).json(content);
     } catch (err) {
+        console.log(err)
         res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
 }

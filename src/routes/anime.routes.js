@@ -1,5 +1,8 @@
 const express = require("express")
 const router = express.Router()
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const controller = require("../controllers/anime.controller")
 
@@ -11,7 +14,7 @@ router.get("/series/:id",controller.getOneAnimeSerie)
 router.get("/series/contents/:id",controller.getOneAnimeContent)
 
 router.post("/series",controller.AddAnimeSerie)
-router.post("/images",controller.AddImage)
+router.post("/images",upload.single('file'),controller.AddImage)
 router.post("/series/contents",controller.AddAnimeContent)
 
 router.delete("/series/:id",controller.deleteAnimeSerie)
