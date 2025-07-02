@@ -68,7 +68,8 @@ exports.getAnime = async (id) => {
         a.author,
         a.watch_status,
         a.description,
-        a.review
+        a.review,
+        a.idImage
         FROM anime_series a  
         WHERE a.id = ?
     `,
@@ -99,12 +100,12 @@ exports.getAnimeContent = async (id) => {
     return row
 }
 
-exports.addAnime = async ({title,seasons,chapters,author,watch_status,description,review,imgSrc,filename})=>{
+exports.addAnime = async ({title,seasons,chapters,author,watch_status,description,review,idImage})=>{
     const rows = await pool.query(`
-        insert into anime_series (title,seasons,chapters,author,watch_status,description,review,imgSrc,filename)
-        values (?,?,?,?,?,?,?,?,?)        
+        insert into anime_series (title,seasons,chapters,author,watch_status,description,review,idImage)
+        values (?,?,?,?,?,?,?,?)        
     `,
-    [title,seasons,chapters,author,watch_status,description,review,imgSrc,filename]
+    [title,seasons,chapters,author,watch_status,description,review,idImage]
     );
     return rows
 }
