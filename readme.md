@@ -30,6 +30,14 @@ Algunos campos en las tablas anime_series y anime_content les puse default null 
 MySQL: Sistema de gestión de bases de datos relacional.
 Javascript con nodejs y express: lenguaje de programacion javascript del lado del servidor usando nodejs y express como framework.
 
+## Instalacion
+
+```
+$ git clone https://github.com/Lucas123-m/backendForCourseUtn.git
+$ npm install
+$ npm run dev
+```
+
 # API:
 
 ## Creo 6 endpoints para obtener informacion (metodo GET):
