@@ -26,6 +26,10 @@ Algunos campos en las tablas anime_series y anime_content les puse default null 
 
 --- 
 
+## Tecnologías Usadas
+MySQL: Sistema de gestión de bases de datos relacional.
+Javascript con nodejs y express: lenguaje de programacion javascript del lado del servidor usando nodejs y express como framework.
+
 # API:
 
 ## Creo 6 endpoints para obtener informacion (metodo GET):
