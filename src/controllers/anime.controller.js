@@ -24,7 +24,7 @@ exports.getOneImage = async (req, res) => {
     try {
         const image = await service.getImage(req.params.id)
         if (!image.length){
-            return res.json({info: 'Imagen no encontrada.'})
+            return res.status(404).json({error: 'Imagen no encontrada.'})
         }
         res.json(image)
     } catch (err) {
@@ -99,7 +99,7 @@ exports.deleteAnimeSerie = async (req, res) => {
     try {
         const deleted = await service.removeAnime(req.params.id);
         if (!deleted[0].affectedRows){
-            return res.json({info:"No hay series de anime con el id informado."})
+            return res.status(404).json({error:"No hay series de anime con el id informado."})
         }
         res.json(deleted);
     } catch (err) {
@@ -110,7 +110,7 @@ exports.deleteAnimeContent = async (req, res) => {
     try {
         const deleted = await service.removeContent(req.params.id);
         if (!deleted[0].affectedRows){
-            return res.json({info:"No hay contenidos de anime con el id informado."})
+            return res.status(404).json({error:"No hay contenidos de anime con el id informado."})
         }
         res.json(deleted);
     } catch (err) {
@@ -125,7 +125,7 @@ exports.deleteImage = async (req, res) => {
         const deleteImage = await serviceImg.deleteImage(public_id)
         const deleted = await service.removeImage(req.params.id);
         if (!deleted[0].affectedRows){
-            return res.json({info:"No hay una imagen con el id informado."})
+            return res.status(404).json({error:"No hay una imagen con el id informado."})
         }
         res.json(deleted);
     } catch (err) {
@@ -137,7 +137,7 @@ exports.updateAnimeSerie = async (req, res) => {
     try {
         const updated = await service.updateAnime(req.params.id, req.body);
         if (!updated[0].affectedRows){
-            return res.json({info:"No hay animes con el id informado."})
+            return res.status(404).json({error:"No hay animes con el id informado."})
         } else if (!updated[0].changedRows){
             return res.json({info:"No se hicieron cambios en el anime informado."})
         }
@@ -150,7 +150,7 @@ exports.updateAnimeContent = async (req, res) => {
     try {
         const updated = await service.updateContent(req.params.id, req.body);
         if (!updated[0].affectedRows){
-            return res.json({info:"No hay contenidos de anime con el id informado."})
+            return res.status(404).json({error:"No hay contenidos de anime con el id informado."})
         } else if (!updated[0].changedRows){
             return res.json({info:"No se hicieron cambios en el contenido informado."})
         }
@@ -164,7 +164,7 @@ exports.updateImage = async (req, res) => {
     try {
         const updated = await service.updateImage(req.params.id, req.body);
         if (!updated[0].affectedRows){
-            return res.json({info:"No hay imagen con el id informado."})
+            return res.status(404).json({error:"No hay imagen con el id informado."})
         } else if (!updated[0].changedRows){
             return res.json({info:"No se hicieron cambios en la imagen informado."})
         }
