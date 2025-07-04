@@ -131,7 +131,6 @@ exports.deleteImage = async (req, res) => {
                 return res.status(500).json({error: "Ha ocurrido un error inesperado en la bbdd al intentar borrar la imagen.",detail: deleted})
             } 
             const deleteImage = await serviceImg.deleteRemoteImage(public_id)
-            console.log(deleteImage["result"],deleteImage?.["result"] === "ok")
             if (!(deleteImage?.["result"] === "ok")){
                 return res.status(500).json({error: "Ha ocurrido un error al borrar en cloudinary la imagen.",detail: deleteImage})
             } 
@@ -190,11 +189,8 @@ exports.updateImage = async (req, res) => {
     if (req.file){
         const response = await serviceImg.uploadImage(req.file)
         // if response ok...
-        console.log("respuesta: ",response)
         dataImg["public_id"] = response["public_id"]
         dataImg["url"] = response["url"]
-
-        console.log("dataimg:",dataImg)
     } else {
         //se mantiene la imagen, cambia el nombre
         dataImgBD = await service.getImage(req.params.id)

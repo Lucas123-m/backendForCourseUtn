@@ -1,7 +1,6 @@
 exports.validarCamposObligatorios = (campos)=>{
     return (req,res,next)=>{
         const faltantes = [];
-        console.log("body recibido",req.body)
         for (let campo of campos){
             
             const valor = req.body?.[campo];

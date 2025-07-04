@@ -33,7 +33,6 @@ exports.deleteRemoteImage = async (public_id)=>{
     const res = cloudinary.uploader.destroy(public_id)
     return res
   } catch {
-    console.log("Ha habido un error: ",res)
     return {error: "Error en el borrado de la imagen en cloudinary."}
   }
     
