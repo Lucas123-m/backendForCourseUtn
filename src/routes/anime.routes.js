@@ -14,7 +14,7 @@ router.get("/series/:id",controller.getOneAnimeSerie)
 router.get("/series/contents/:id",controller.getOneAnimeContent)
 
 router.post("/series",validarCamposObligatorios(["title","author","watch_status"]),controller.AddAnimeSerie)
-router.post("/images",validarCamposObligatorios(["name"]),upload.single('file'),controller.AddImage)
+router.post("/images",upload.single('file'),validarCamposObligatorios(["name"]),controller.AddImage)
 router.post("/series/contents",validarCamposObligatorios(["id_serie","title","type","watch_status","duration"]),controller.AddAnimeContent)
 
 router.delete("/series/:id",controller.deleteAnimeSerie)

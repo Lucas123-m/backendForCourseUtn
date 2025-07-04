@@ -22,7 +22,8 @@ exports.getAllImages = async() =>{
         SELECT
         a.id,
         a.url,
-        a.name
+        a.name,
+        a.public_id
         FROM anime_images a      
     `);
     return rows;
@@ -33,7 +34,8 @@ exports.getImage = async(id) =>{
         SELECT
         a.id,
         a.url,
-        a.name
+        a.name,
+        a.public_id
         FROM anime_images a 
         where a.id = ?     
     `,[id]);
@@ -196,8 +198,8 @@ exports.updateContent = async(id,{id_serie,title,type,watch_order,chapters,watch
     const rows = await pool.query(query,parameters)
     return rows
 }
-exports.updateImage = async(id,{url,name}) => {
-    const rows = await pool.query(`update anime_images set name=?,url=? where id = ?`,[name,url,id])
+exports.updateImage = async(id,{url,name,public_id}) => {
+    const rows = await pool.query(`update anime_images set name=?,url=?,public_id = ? where id = ?`,[name,url,id,public_id])
     return rows
 }
 

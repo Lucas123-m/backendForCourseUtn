@@ -28,26 +28,13 @@ exports.uploadImage = async (file) => {
   return uploadedImageUrl
 };
 
-/////////////////////////////////////
-// Gets details of an uploaded image
-/////////////////////////////////////
-const getAssetInfo = async (publicId) => {
-
-    // Return colors in the response
-    const options = {
-      colors: true,
-    };
-
-    try {
-        // Get details about the asset
-        const result = await cloudinary.api.resource(publicId, options);
-        return result.colors;
-        } catch (error) {
-        console.error(error);
-    }
-};
-
-exports.deleteImage = async (public_id)=>{
+exports.deleteRemoteImage = async (public_id)=>{
+  try{
     const res = cloudinary.uploader.destroy(public_id)
     return res
+  } catch {
+    console.log("Ha habido un error: ",res)
+    return {error: "Error en el borrado de la imagen en cloudinary."}
+  }
+    
 }

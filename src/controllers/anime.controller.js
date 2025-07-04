@@ -91,7 +91,7 @@ exports.AddImage = async (req, res) => {
         const content = await service.addAnimeImage(data,req.body)
         res.status(201).json(content);
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
+        res.status(500).json({ error: 'Error al intentar subir una imagen.' });
     }
 }
 
@@ -101,7 +101,7 @@ exports.deleteAnimeSerie = async (req, res) => {
         if (!deleted[0].affectedRows){
             return res.status(404).json({error:"No hay series de anime con el id informado."})
         }
-        res.json(deleted);
+        res.json({info: "Se ha borrado el anime correctamente."});
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar borrar un anime.' });
     }
@@ -112,7 +112,7 @@ exports.deleteAnimeContent = async (req, res) => {
         if (!deleted[0].affectedRows){
             return res.status(404).json({error:"No hay contenidos de anime con el id informado."})
         }
-        res.json(deleted);
+        res.json({info: "Se ha borrado el contenido correctamente."});
     } catch (err) {
         res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
     }
@@ -121,15 +121,28 @@ exports.deleteAnimeContent = async (req, res) => {
 exports.deleteImage = async (req, res) => {
     try {
         const images = await service.getAllImages()
-        const public_id = (images.filter((elem)=>elem.id === req.params.id)).public_id
-        const deleteImage = await serviceImg.deleteImage(public_id)
-        const deleted = await service.removeImage(req.params.id);
-        if (!deleted[0].affectedRows){
+        console.log(req.params.id)
+        const imagesFilter = images.filter((elem)=> {
+            return(elem.id===parseInt(req.params.id))
+        })
+        console.log(imagesFilter)
+        const public_id = imagesFilter[0]?.id
+        console.log(public_id)
+        if (public_id){
+            console.log(public_id)
+            const deleteImage = await serviceImg.deleteRemoteImage(public_id)
+            console.log("imagen borrada en cloudinary:",deleteImage)
+            const deleted = await service.removeImage(req.params.id);
+            if (deleted[0].affectedRows && deleted[0].affectedRows===1 ){
+                res.json({info: "Se ha borrado la imagen correctamente"})
+            } else {
+                res.status(500).json({error: "Ha ocurrido un error inesperado en la bbdd al intentar borrar la imagen.",detail: deleted})
+            } 
+        } else {
             return res.status(404).json({error:"No hay una imagen con el id informado."})
         }
-        res.json(deleted);
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar borrar una imagen de la bbdd...' });
+        res.status(500).json({ error: 'Error al intentar borrar una imagen de la bbdd...',detail: err.toString() });
     }
 }
 
