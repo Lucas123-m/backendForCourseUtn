@@ -124,7 +124,7 @@ exports.deleteImage = async (req, res) => {
         const imagesFilter = images.filter((elem)=> {
             return(elem.id===parseInt(req.params.id))
         })
-        const public_id = imagesFilter[0]?.id
+        const public_id = imagesFilter[0]?.public_id
         if (public_id){
             const deleted = await service.removeImage(req.params.id);
             if (!deleted[0].affectedRows || !deleted[0].affectedRows===1 ){
@@ -172,15 +172,35 @@ exports.updateAnimeContent = async (req, res) => {
 } 
 
 exports.updateImage = async (req, res) => {
-    try {
-        const updated = await service.updateImage(req.params.id, req.body);
-        if (!updated[0].affectedRows){
-            return res.status(404).json({error:"No hay imagen con el id informado."})
-        } else if (!updated[0].changedRows){
-            return res.json({info:"No se hicieron cambios en la imagen informado."})
-        }
-        return res.json({info:"Se ha actualizado la imagen correctamente."});
-    } catch (err) {
-        return res.status(500).json({ error: 'Error al intentar actualizar datos de una imagen.' });
+    //caso 1: Se mantiene la imagen pero cambio el nombre. entonces, url, public_id, quedan iguales
+    //caso 2: Se mantiene el nombre pero cambio la imagen. entonces name queda igual 
+    //,borro la imagen anterior en cloudinary y subo la nueva imagen para obtener nuevos campos 
+    // y actualizar en bbdd
+    //caso 3: cambian ambos. delete cloudinary y subir, cambio todo. 2 y 3 
+    let newDataImg = {name: "",public_id: "",url:""}
+    let dataImgBD = {}
+    if (req.body?.name){
+        newDataImg["image"] = req.body.name
+    } else {
+        //se mantiene el nombre, cambia la imagen
+        dataImgBD = await service.getImage(req.params.id)
+        newDataImg["image"]  = dataImgBD["name"]
     }
-} 
+    var dataImg = {public_id: "",url:""}
+    if (req.file){
+        const response = await serviceImg.uploadImage(req.file)
+        // if response ok...
+        console.log("respuesta: ",response)
+        dataImg["public_id"] = response["public_id"]
+        dataImg["url"] = response["url"]
+
+        console.log("dataimg:",dataImg)
+    } else {
+        //se mantiene la imagen, cambia el nombre
+        dataImgBD = await service.getImage(req.params.id)
+        dataImg["public_id"] = dataImgBD["public_id"]
+        dataImg["url"] = dataImgBD["url"]
+    }
+    service.updateImage(req.params.id,newDataImg)
+    res.json({info: "todo ok"})
+}

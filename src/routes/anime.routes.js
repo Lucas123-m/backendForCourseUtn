@@ -21,7 +21,7 @@ router.delete("/series/:id",controller.deleteAnimeSerie)
 router.delete("/series/contents/:id",controller.deleteAnimeContent)
 router.delete("/images/:id",controller.deleteImage)
 
-router.put("/images/:id",controller.updateImage)
+router.put("/images/:id",upload.single('file'),controller.updateImage)
 router.put("/series/:id",controller.updateAnimeSerie)
 router.put("/series/contents/:id",controller.updateAnimeContent)
 
