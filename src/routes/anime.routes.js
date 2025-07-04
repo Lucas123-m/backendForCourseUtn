@@ -22,7 +22,7 @@ router.delete("/series/contents/:id",controller.deleteAnimeContent)
 router.delete("/images/:id",controller.deleteImage)
 
 router.put("/images/:id",upload.single('file'),controller.updateImage)
-router.put("/series/:id",controller.updateAnimeSerie)
-router.put("/series/contents/:id",controller.updateAnimeContent)
+router.put("/series/:id",validarCamposObligatorios(["title","author","watch_status"]),controller.updateAnimeSerie)
+router.put("/series/contents/:id",validarCamposObligatorios(["id_serie","title","type","watch_status","duration"]),controller.updateAnimeContent)
 
 module.exports = router;
