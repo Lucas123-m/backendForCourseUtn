@@ -7,17 +7,17 @@ exports.getAllAnimeSeries = async (req, res) => {
         if (!animes.length){
             return res.status(200).json({info:"No hay series de anime registradas en la base de datos."})
         }
-        res.json(animes)
+        return res.json(animes)
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener animes.' });
+        return res.status(500).json({ error: 'Error al obtener animes.' });
     }
 }
 exports.getImages = async (req, res) => {
     try {
         const images = await service.getAllImages()
-        res.json(images)
+        return res.json(images)
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener imagenes.' });
+        return res.status(500).json({ error: 'Error al obtener imagenes.' });
     }
 }
 exports.getOneImage = async (req, res) => {
@@ -26,9 +26,9 @@ exports.getOneImage = async (req, res) => {
         if (!image.length){
             return res.status(404).json({error: 'Imagen no encontrada.'})
         }
-        res.json(image)
+        return res.json(image)
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener imagen.' });
+        return res.status(500).json({ error: 'Error al obtener imagen.' });
     }
 }
 
@@ -38,9 +38,9 @@ exports.getAllAnimeContent = async (req, res) => {
         if (!contenidos.length){
             return res.status(200).json({info:"No hay contenidos de anime registrados en la base de datos."})
         }
-        res.json(contenidos)
+        return res.json(contenidos)
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener contenido de anime.' });
+        return res.status(500).json({ error: 'Error al obtener contenido de anime.' });
     }
 }
 exports.getOneAnimeSerie = async (req, res) => {
@@ -50,10 +50,10 @@ exports.getOneAnimeSerie = async (req, res) => {
             return res.status(404).json({error:"Anime no encontrado."})
         } 
         
-        res.json(anime)
+        return res.json(anime)
         
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener un anime.' });
+        return res.status(500).json({ error: 'Error al obtener un anime.' });
     }
 }
 exports.getOneAnimeContent = async (req, res) => {
@@ -62,26 +62,26 @@ exports.getOneAnimeContent = async (req, res) => {
         if (!content.length){
             return res.status(404).json({error:"Contenido no encontrado."})
         }
-        res.json(content)
+        return res.json(content)
     } catch (err) {
-        res.status(500).json({ error: 'Error al obtener un contenido de anime.' });
+        return res.status(500).json({ error: 'Error al obtener un contenido de anime.' });
     }
 }
 
 exports.AddAnimeSerie = async (req, res) => {
     try {
         const anime = await service.addAnime(req.body)
-        res.status(201).json({info:"Se ha agregado un anime correctamente."});
+        return res.status(201).json({info:"Se ha agregado un anime correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar agregar un anime.' });
+        return res.status(500).json({ error: 'Error al intentar agregar un anime.' });
     }
 }
 exports.AddAnimeContent = async (req, res) => {
     try {
         const content = await service.addAnimeContent(req.body)
-        res.status(201).json({info:"Se ha agregado un contenido correctamente."});
+        return res.status(201).json({info:"Se ha agregado un contenido correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
+        return res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
 }
 
@@ -89,9 +89,9 @@ exports.AddImage = async (req, res) => {
     try {
         const data = await serviceImg.uploadImage(req.file)
         const content = await service.addAnimeImage(data,req.body)
-        res.status(201).json(content);
+        return res.status(201).json(content);
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar subir una imagen.' });
+        return res.status(500).json({ error: 'Error al intentar subir una imagen.' });
     }
 }
 
@@ -101,9 +101,9 @@ exports.deleteAnimeSerie = async (req, res) => {
         if (!deleted[0].affectedRows){
             return res.status(404).json({error:"No hay series de anime con el id informado."})
         }
-        res.json({info: "Se ha borrado el anime correctamente."});
+        return res.json({info: "Se ha borrado el anime correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar borrar un anime.' });
+        return res.status(500).json({ error: 'Error al intentar borrar un anime.' });
     }
 }
 exports.deleteAnimeContent = async (req, res) => {
@@ -112,37 +112,35 @@ exports.deleteAnimeContent = async (req, res) => {
         if (!deleted[0].affectedRows){
             return res.status(404).json({error:"No hay contenidos de anime con el id informado."})
         }
-        res.json({info: "Se ha borrado el contenido correctamente."});
+        return res.json({info: "Se ha borrado el contenido correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
+        return res.status(500).json({ error: 'Error al intentar borrar un contenido de anime..' });
     }
 }
 
 exports.deleteImage = async (req, res) => {
     try {
         const images = await service.getAllImages()
-        console.log(req.params.id)
         const imagesFilter = images.filter((elem)=> {
             return(elem.id===parseInt(req.params.id))
         })
-        console.log(imagesFilter)
         const public_id = imagesFilter[0]?.id
-        console.log(public_id)
         if (public_id){
-            console.log(public_id)
-            const deleteImage = await serviceImg.deleteRemoteImage(public_id)
-            console.log("imagen borrada en cloudinary:",deleteImage)
             const deleted = await service.removeImage(req.params.id);
-            if (deleted[0].affectedRows && deleted[0].affectedRows===1 ){
-                res.json({info: "Se ha borrado la imagen correctamente"})
-            } else {
-                res.status(500).json({error: "Ha ocurrido un error inesperado en la bbdd al intentar borrar la imagen.",detail: deleted})
+            if (!deleted[0].affectedRows || !deleted[0].affectedRows===1 ){
+                return res.status(500).json({error: "Ha ocurrido un error inesperado en la bbdd al intentar borrar la imagen.",detail: deleted})
             } 
+            const deleteImage = await serviceImg.deleteRemoteImage(public_id)
+            console.log(deleteImage["result"],deleteImage?.["result"] === "ok")
+            if (!(deleteImage?.["result"] === "ok")){
+                return res.status(500).json({error: "Ha ocurrido un error al borrar en cloudinary la imagen.",detail: deleteImage})
+            } 
+            return res.json({info: "Se ha borrado la imagen correctamente"})
         } else {
             return res.status(404).json({error:"No hay una imagen con el id informado."})
         }
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar borrar una imagen de la bbdd...',detail: err.toString() });
+        return res.status(500).json({ error: 'Error al intentar borrar una imagen...',detail: err.toString() });
     }
 }
 
@@ -154,9 +152,9 @@ exports.updateAnimeSerie = async (req, res) => {
         } else if (!updated[0].changedRows){
             return res.json({info:"No se hicieron cambios en el anime informado."})
         }
-        res.json({info:"Se ha actualizado el anime correctamente."});
+        return res.json({info:"Se ha actualizado el anime correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar actualizar datos de un anime.' });
+        return res.status(500).json({ error: 'Error al intentar actualizar datos de un anime.' });
     }
 }
 exports.updateAnimeContent = async (req, res) => {
@@ -167,9 +165,9 @@ exports.updateAnimeContent = async (req, res) => {
         } else if (!updated[0].changedRows){
             return res.json({info:"No se hicieron cambios en el contenido informado."})
         }
-        res.json({info:"Se ha actualizado el contenido correctamente."});
+        return res.json({info:"Se ha actualizado el contenido correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar actualizar datos de un contenido de anime.' });
+        return res.status(500).json({ error: 'Error al intentar actualizar datos de un contenido de anime.' });
     }
 } 
 
@@ -181,8 +179,8 @@ exports.updateImage = async (req, res) => {
         } else if (!updated[0].changedRows){
             return res.json({info:"No se hicieron cambios en la imagen informado."})
         }
-        res.json({info:"Se ha actualizado la imagen correctamente."});
+        return res.json({info:"Se ha actualizado la imagen correctamente."});
     } catch (err) {
-        res.status(500).json({ error: 'Error al intentar actualizar datos de una imagen.' });
+        return res.status(500).json({ error: 'Error al intentar actualizar datos de una imagen.' });
     }
 } 
