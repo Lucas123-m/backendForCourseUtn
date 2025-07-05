@@ -89,7 +89,7 @@ CREATE TABLE `anime_series` (
   `watch_status` enum('planned','watching','completed','on_hold','dropped') NOT NULL,
   `description` text DEFAULT NULL,
   `review` text DEFAULT NULL,
-  `idImage` INT DEFAULT NULL
+  `idImage` INT DEFAULT NULL CHECK (idImage > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
