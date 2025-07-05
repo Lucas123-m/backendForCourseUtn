@@ -67,6 +67,13 @@ CREATE TABLE `anime_images` (
   `name` varchar(255) NOT NULL UNIQUE,
   `public_id` VARCHAR (255) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- Dumping data for table `anime_series`
+--
+
+INSERT INTO `anime_images` (`id`, `url`, `name`, `public_id`) VALUES
+(0, "", "N/A", 'N/A');
+
 
 -- --------------------------------------------------------
 --
@@ -92,10 +99,6 @@ CREATE TABLE `anime_series` (
 INSERT INTO `anime_series` (`title`, `seasons`, `chapters`, `author`, `watch_status`) VALUES
 ('Bocchi the rock', 1, 12, 'Aki Hamazi', 'planned'),
 ('Honzuki no Gekokujō: Shisho ni Naru Tame niwa Shudan o Erandeiraremasen', 3, 36, 'Miya Kazuki', 'completed');
-
---
--- Indexes for dumped tables
---
 
 --
 -- Indexes for table `anime_content`
