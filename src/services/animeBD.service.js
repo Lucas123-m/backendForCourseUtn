@@ -199,7 +199,7 @@ exports.updateContent = async(id,{id_serie,title,type,watch_order,chapters,watch
     return rows
 }
 exports.updateImage = async(id,{url,name,public_id}) => {
-    const rows = await pool.query(`update anime_images set name=?,url=?,public_id = ? where id = ?`,[name,url,id,public_id])
+    const rows = await pool.query(`update anime_images set name=?,url=?,public_id = ? where id = ?`,[name,url,public_id,id])
     return rows
 }
 

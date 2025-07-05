@@ -87,6 +87,9 @@ exports.AddAnimeContent = async (req, res) => {
 
 exports.AddImage = async (req, res) => {
     try {
+        if (!req.file){
+            return res.status(400).json({error : "No se ha enviado ninguna imagen."})
+        }
         const data = await serviceImg.uploadImage(req.file)
         const content = await service.addAnimeImage(data,req.body)
         return res.status(201).json(content);
@@ -171,32 +174,37 @@ exports.updateAnimeContent = async (req, res) => {
 } 
 
 exports.updateImage = async (req, res) => {
-    //caso 1: Se mantiene la imagen pero cambio el nombre. entonces, url, public_id, quedan iguales
-    //caso 2: Se mantiene el nombre pero cambio la imagen. entonces name queda igual 
-    //,borro la imagen anterior en cloudinary y subo la nueva imagen para obtener nuevos campos 
-    // y actualizar en bbdd
-    //caso 3: cambian ambos. delete cloudinary y subir, cambio todo. 2 y 3 
+    if (!req.body?.name && !req.file){
+        return res.status(400).json({error: "No se ha pasado name ni un archivo."})
+    }
     let newDataImg = {name: "",public_id: "",url:""}
-    let dataImgBD = {}
+    let dataImgBD =  await service.getImage(req.params.id)
+    if (!dataImgBD.length){
+        return res.status(400).json({error: "No se ha encontrado la imagen en la bbdd"})
+    } 
+    dataImgBD = dataImgBD[0]
     if (req.body?.name){
-        newDataImg["image"] = req.body.name
+        newDataImg["name"] = req.body.name
     } else {
         //se mantiene el nombre, cambia la imagen
-        dataImgBD = await service.getImage(req.params.id)
-        newDataImg["image"]  = dataImgBD["name"]
+        newDataImg["name"]  = dataImgBD["name"]
     }
-    var dataImg = {public_id: "",url:""}
+
+    console.log("data imgBD: ",dataImgBD)
     if (req.file){
-        const response = await serviceImg.uploadImage(req.file)
+        const resImgUploaded = await serviceImg.uploadImage(req.file)
         // if response ok...
-        dataImg["public_id"] = response["public_id"]
-        dataImg["url"] = response["url"]
+        const resImgDeleted = await serviceImg.deleteRemoteImage(dataImgBD.public_id)
+        console.log("img deleted cloudinary: ",resImgDeleted)
+        newDataImg["public_id"] = resImgUploaded["public_id"]
+        newDataImg["url"] = resImgUploaded["url"]
     } else {
         //se mantiene la imagen, cambia el nombre
-        dataImgBD = await service.getImage(req.params.id)
-        dataImg["public_id"] = dataImgBD["public_id"]
-        dataImg["url"] = dataImgBD["url"]
+        
+        newDataImg["public_id"] = dataImgBD["public_id"]
+        newDataImg["url"] = dataImgBD["url"]
     }
-    service.updateImage(req.params.id,newDataImg)
-    res.json({info: "todo ok"})
+    console.log(newDataImg)
+    const data = await service.updateImage(req.params.id,newDataImg)
+    res.json({info: "todo ok",detail: data})
 }
