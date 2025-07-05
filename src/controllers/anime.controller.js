@@ -174,9 +174,6 @@ exports.updateAnimeContent = async (req, res) => {
 } 
 
 exports.updateImage = async (req, res) => {
-    if (!req.body?.name && !req.file){
-        return res.status(400).json({error: "No se ha pasado name ni un archivo."})
-    }
     let newDataImg = {name: "",public_id: "",url:""}
     let dataImgBD =  await service.getImage(req.params.id)
     if (!dataImgBD.length){
@@ -189,13 +186,10 @@ exports.updateImage = async (req, res) => {
         //se mantiene el nombre, cambia la imagen
         newDataImg["name"]  = dataImgBD["name"]
     }
-
-    console.log("data imgBD: ",dataImgBD)
     if (req.file){
         const resImgUploaded = await serviceImg.uploadImage(req.file)
         // if response ok...
         const resImgDeleted = await serviceImg.deleteRemoteImage(dataImgBD.public_id)
-        console.log("img deleted cloudinary: ",resImgDeleted)
         newDataImg["public_id"] = resImgUploaded["public_id"]
         newDataImg["url"] = resImgUploaded["url"]
     } else {
@@ -204,7 +198,6 @@ exports.updateImage = async (req, res) => {
         newDataImg["public_id"] = dataImgBD["public_id"]
         newDataImg["url"] = dataImgBD["url"]
     }
-    console.log(newDataImg)
     const data = await service.updateImage(req.params.id,newDataImg)
     res.json({info: "todo ok",detail: data})
 }
