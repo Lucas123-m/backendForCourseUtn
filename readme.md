@@ -40,10 +40,27 @@ Javascript con nodejs y express: lenguaje de programacion javascript del lado de
 ## Instalacion
 
 ```
+Repositorio backend:
 $ git clone https://github.com/Lucas123-m/backendForCourseUtn.git
 $ npm install
 $ npm run dev
 ```
+
+XAMPP:
+
+download:
+
+- download apache from https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/8.2.12/xampp-linux-x64-8.2.12-0-installer.run
+
+- cd /home/[username]/Downloads
+
+- sudo chmod 755 [package_name]
+
+- sudo ./[package_name] (and follow installation instructions).
+
+Opciones para iniciar servicios:
+- sudo /opt/lampp/lampp start
+- sudo ./manager-linux.run (in /opt/lampp, para hacerlo con la GUI)
 
 # API:
 
