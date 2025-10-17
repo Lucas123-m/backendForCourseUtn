@@ -9,11 +9,14 @@ const { validarCamposObligatorios } = require("../middlewares/validarCampos")
 
 
 router.get("/",controller.getImages)
+router.get("/all",controller.getImagesRemote)
 router.get("/:id",validarID(),controller.getOneImage)
 
 router.post("/",upload.single('file'),validarCamposObligatorios(["name"]),controller.AddImage)
 
+router.delete("/",validarID(),controller.deleteAllImages)
 router.delete("/:id",validarID(),controller.deleteImage)
+
 
 router.put("/:id",upload.single('file'),validarCamposObligatorios(["name"]),validarID(),controller.updateImage)
 

@@ -5,8 +5,7 @@ const seriesRouter = require("./src/routes/series.routes")
 const imagesRouter = require("./src/routes/images.routes")
 
 const app = express();
-app.use(cors())
-/*app.use(cors({origin: (origin,callback)=>{
+app.use(cors({origin: (origin,callback)=>{
     const optionsOrigin = ['http://localhost:5173','http://localhost:3000']
     if (optionsOrigin.some((elem)=>elem===origin)){
         return callback(null,true)
@@ -16,7 +15,7 @@ app.use(cors())
         return callback(null,true)
     }
     return callback(new Error(("Error de CORS")))
-}}))*/
+}}))
 app.use(express.json())
 app.use("/animes/series",seriesRouter)
 app.use("/animes/images",imagesRouter)
