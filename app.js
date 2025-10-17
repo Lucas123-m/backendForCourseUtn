@@ -1,7 +1,8 @@
 require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
-const animeRouter = require("./src/routes/anime.routes")
+const seriesRouter = require("./src/routes/series.routes")
+const imagesRouter = require("./src/routes/images.routes")
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.use(cors({origin: (origin,callback)=>{
     return callback(new Error(("Error de CORS")))
 }}))
 app.use(express.json())
-app.use("/animes",animeRouter)
+app.use("/animes/series",seriesRouter)
+app.use("/animes/images",imagesRouter)
 
 const PORT = process.env.PORT || 3000;
 
