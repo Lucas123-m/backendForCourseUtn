@@ -26,7 +26,7 @@ exports.AddImage = async (req, res) => {
         if (!req.file){
             return res.status(400).json({error : "No se ha enviado ninguna imagen."})
         }
-        const data = await serviceImgImg.uploadImage(req.file)
+        const data = await serviceImg.uploadImage(req.file)
         const content = await serviceImg.addAnimeImage(data,req.body)
         return res.status(201).json(content);
     } catch (err) {
@@ -46,7 +46,7 @@ exports.deleteImage = async (req, res) => {
             if (!deleted[0].affectedRows || !deleted[0].affectedRows===1 ){
                 return res.status(500).json({error: "Ha ocurrido un error inesperado en la bbdd al intentar borrar la imagen.",detail: deleted})
             } 
-            const deleteImage = await serviceImgImg.deleteRemoteImage(public_id)
+            const deleteImage = await serviceImg.deleteRemoteImage(public_id)
             if (!(deleteImage?.["result"] === "ok")){
                 return res.status(500).json({error: "Ha ocurrido un error al borrar en cloudinary la imagen.",detail: deleteImage})
             } 
@@ -73,9 +73,9 @@ exports.updateImage = async (req, res) => {
         newDataImg["name"]  = dataImgBD["name"]
     }
     if (req.file){
-        const resImgUploaded = await serviceImgImg.uploadImage(req.file)
+        const resImgUploaded = await serviceImg.uploadImage(req.file)
         // if response ok...
-        const resImgDeleted = await serviceImgImg.deleteRemoteImage(dataImgBD.public_id)
+        const resImgDeleted = await serviceImg.deleteRemoteImage(dataImgBD.public_id)
         newDataImg["public_id"] = resImgUploaded["public_id"]
         newDataImg["url"] = resImgUploaded["url"]
     } else {

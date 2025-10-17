@@ -3,9 +3,11 @@ const cloudinary = require('cloudinary').v2;
 require("dotenv").config()
 // Return "https" URLs by setting secure: true
 cloudinary.config({
-  secure: true
+  secure: true,
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET
 });
-
 // Log the configuration
 console.log(cloudinary.config());
 
