@@ -42,7 +42,6 @@ exports.deleteRemoteImage = async (public_id)=>{
 
 exports.getAllRemoteImages = async () =>{
   var result = {}
-  console.log("llego al servicio para hacer la consulta:");
   const getImages = async () =>{
     return cloudinary.search.sort_by('public_id','desc').max_results(30).execute().then(result=>result);
   }

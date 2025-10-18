@@ -91,12 +91,13 @@ exports.deleteAllImages = async (req, res) => {
 
         }
         const remoteImages = await serviceCloudinary.getAllRemoteImages()
-        remoteImages.forEach(async ({public_id})=>{
+        for (const image of remoteImages){
+            const {public_id} = image
             const deleteImage = await serviceCloudinary.deleteRemoteImage(public_id)
             if (!(deleteImage?.["result"] === "ok")){
                 return res.status(500).json({error: "Ha ocurrido un error al borrar en cloudinary la imagen.",detail: deleteImage})
             } 
-        }) 
+        }
         return res.json({info: "Se han borrado todas las imagenes correctamente"})
     } catch (err) {
         return res.status(500).json({ error: 'Error al intentar borrar una imagen...',detail: err.toString() });
