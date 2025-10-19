@@ -2,7 +2,16 @@ const express = require("express")
 const router = express.Router()
 const multer = require('multer');
 //const storage = multer.memoryStorage();
-const upload = multer({dest: 'uploads/'});
+const path = require('path')
+const upload = multer({
+    dest: 'uploads/',
+    fileFilter: (req,file,cb)=>{
+        if (file.mimetype !== 'text/csv' || path.extname(file.originalname).toLowerCase() !== '.csv') {
+            return cb(new Error('Only CSV files are allowed'), false)
+        }
+        cb(null, true)
+    }
+});
 
 const { validarCamposObligatorios } = require("../middlewares/validarCampos")
 
