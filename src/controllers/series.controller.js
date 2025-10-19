@@ -1,5 +1,5 @@
 const service = require("../services/animeBD.service")
-
+const csv = require("../services/csvreader")
 exports.getAllAnimeSeries = async (req, res) => {
     try {
         const animes = await service.getAllAnimes()
@@ -55,6 +55,16 @@ exports.AddAnimeSerie = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ error: 'Error al intentar agregar un anime.' });
     }
+}
+exports.ImportAnimeSeries = async (req, res) => {
+    console.log(req.file.path)
+    try {
+        const results = await csv.readCSV(req.file.path)
+        return res.status(201).json({info:"Se ha importado."});
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al intentar importar.',details: err});
+    }
+
 }
 exports.AddAnimeContent = async (req, res) => {
     try {
