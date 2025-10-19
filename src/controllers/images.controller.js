@@ -3,7 +3,6 @@ const serviceCloudinary = require("../services/images.service")
 exports.getImages = async (req, res) => {
     try {
         const images = await serviceBD.getAllImages()
-        console.log(images)
         return res.json(images)
     } catch (err) {
         return res.status(500).json({ error: 'Error al obtener imagenes.' });

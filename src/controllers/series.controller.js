@@ -53,7 +53,7 @@ exports.AddAnimeSerie = async (req, res) => {
         const anime = await service.addAnime(req.body)
         return res.status(201).json({info:"Se ha agregado un anime correctamente."});
     } catch (err) {
-        return res.status(500).json({ error: 'Error al intentar agregar un anime.' });
+        return res.status(500).json({ error: 'Error al intentar agregar un anime.',details: err});
     }
 }
 exports.ImportAnimeSeries = async (req, res) => {
