@@ -1,5 +1,6 @@
 const service = require("../services/animeBD.service")
-const csvService = require("../services/csvreader")
+const csvService = require("../utils/csvreader")
+const { validateRow } = require("../utils/validateRowsCSV")
 exports.getAllAnimeSeries = async (req, res) => {
     try {
         const animes = await service.getAllAnimes()
@@ -60,8 +61,25 @@ exports.ImportAnimeSeries = async (req, res) => {
     console.log(req.file.path)
     try {
         const results = await csvService.readCSV(req.file.path)
-        console.log(results)
-        return res.status(201).json({info:"Se ha importado.",details: results.info});
+        var validacion = {}
+        const error = {errores: {}}
+        for (const [index, value] of results.data.entries()){
+            validacion = validateRow(value)
+            console.log("values:",index,value)
+            if(!validacion.success){
+                error.errores[index+1] = validacion.error
+            } else {
+                try{
+                    await service.addAnime(value)
+                } catch (err){
+                    error.errores[index+1] = err
+                }
+            }
+        }
+        if (Object.keys(error.errores).length > 0){
+            return res.status(400).json({ error: 'Error al intentar importar, formato incorrecto.',details: error.errores});
+        }
+        return res.status(201).json({info:"Se ha importado."});
     } catch (err) {
         return res.status(500).json({ error: 'Error al intentar importar.',details: err});
     }

@@ -1,21 +1,17 @@
-const { parse } = require("csv-parse")
-//const csvParser = require("csv-parser")
+//const { parse } = require("csv-parse")
+const csvParser = require("csv-parser")
 const fs = require("fs")
 
 exports.readCSV = async (path)=>{
   return new Promise((resolve,reject)=>{
     const csvData = {data:[],info:[],titulos:[]}
     var line1 = true
-    //readStream.pipe(csvParser()) otra opcion, genera objetos
+    //.pipe(parse({delimiter: "\n\n",from_line:1}))
+    //readStream.pipe(csvParser()) //otra opcion, genera objetos
     fs.createReadStream(path,'utf-8')
-    .pipe(parse({delimiter: "\n\n",from_line:1}))
+    .pipe(csvParser())
     .on("data", (row) => {
-      if (line1){
-        csvData.titulos.push(row)
-        line1 = false
-      } else {
-        csvData.data.push(row)
-      }
+      csvData.data.push(row)
     })
     
     .on('end', () => {
