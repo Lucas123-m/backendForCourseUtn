@@ -179,6 +179,40 @@ exports.deleteAnimeContent = async (req, res) => {
     }
 }
 
+exports.deleteContentFromFile = async (req, res) => {
+    try {
+        const results = await csvUtil.readCSV(req.file.path)
+        if (results.data.length<= 0){
+            return res.status(404).json({ error: 'No se especifican IDs en el archivo.' });
+        }
+        const keys = Object.keys(results.data[0])
+        if (keys.length>1 || keys[0].toLowerCase()!== "id"){
+            return res.status(404).json({ error: 'Formato de columnas incorrecto, debe ser una sola con titulo id.' });
+        }
+        const error = {errores: {}}
+        for (const [index,value] of results.data.entries()){
+            if(!isNaN(value.id) && Number(value.id) > 0 && Number.isInteger(Number(value.id))){
+                try {
+                    const deleted = await service.removeContent(Number(value.id));
+                    if (!deleted[0].affectedRows){
+                        error.errores[index+1] = "No hay contenido con el id informado."
+                    }
+                } catch (err){
+                    error.errores[index+1]=`Error al borrar un contenido: ${err.stack}.`
+                }
+            } else {
+                error.errores[index+1]=`No se indicó un ID numerico valido.`
+            }
+        }
+        if (Object.keys(error.errores).length > 0){
+            return res.status(400).json({ error: 'Error al intentar borrar contenidos.',details: error.errores});
+        }
+        return res.status(201).json({info:"Se han borrado los contenidos correctamente."});
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al intentar borrar un contenidos.',details: `${err.stack}`});
+    }
+}
+
 exports.updateAnimeSerie = async (req, res) => {
     try {
         const updated = await service.updateAnime(req.params.id, req.body);

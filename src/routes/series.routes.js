@@ -31,8 +31,8 @@ router.post("/contents/import",upload.single('file'),validarArchivo(),controller
 
 router.delete("/import",upload.single('file'),validarArchivo(),controller.deleteAnimesFromFile)
 router.delete("/:id",controller.deleteAnimeSerie)
+router.delete("/contents/import",upload.single('file'),validarArchivo(),controller.deleteContentFromFile)
 router.delete("/contents/:id",controller.deleteAnimeContent)
-router.delete("/contents/import",upload.single('file'),validarArchivo(),controller.deleteAnimeContent)
 
 router.put("/:id",validarSerie(),controller.updateAnimeSerie)
 router.put("/contents/:id",validarContent(),controller.updateAnimeContent)
