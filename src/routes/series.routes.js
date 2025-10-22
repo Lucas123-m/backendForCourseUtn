@@ -15,6 +15,7 @@ const upload = multer({
 
 const { validarSerie } = require("../middlewares/validarSerie")
 const { validarContent } = require("../middlewares/validarContent")
+const { validarArchivo } = require("../middlewares/validarArchivo")
 const controller = require("../controllers/series.controller")
 
 router.get("/",controller.getAllAnimeSeries)
@@ -23,11 +24,15 @@ router.get("/:id",controller.getOneAnimeSerie)
 router.get("/contents/:id",controller.getOneAnimeContent)
 
 router.post("/",validarSerie(),controller.AddAnimeSerie)
+router.post("/import",upload.single('file'),validarArchivo(),controller.ImportAnimeSeries)
 router.post("/contents",validarContent(),controller.AddAnimeContent)
-router.post("/import",upload.single('file'),controller.ImportAnimeSeries)
+router.post("/contents/import",upload.single('file'),validarArchivo(),controller.ImportAnimeContent)
 
+
+router.delete("/import",upload.single('file'),validarArchivo(),controller.deleteAnimesFromFile)
 router.delete("/:id",controller.deleteAnimeSerie)
 router.delete("/contents/:id",controller.deleteAnimeContent)
+router.delete("/contents/import",upload.single('file'),validarArchivo(),controller.deleteAnimeContent)
 
 router.put("/:id",validarSerie(),controller.updateAnimeSerie)
 router.put("/contents/:id",validarContent(),controller.updateAnimeContent)

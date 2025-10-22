@@ -1,8 +1,8 @@
-const content = require("../schemas/content")
+const { contentSchema } = require("../schemas/anime")
 
 exports.validarContent = ()=>{    
     return (req,res,next)=>{
-        const result = content.serieSchema.safeParse(req.body)
+        const result = contentSchema.safeParse(req.body)
         console.log(result)
         if(!result.success){
             return res.status(400).json({

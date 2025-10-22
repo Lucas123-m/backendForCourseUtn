@@ -1,5 +1,6 @@
 const service = require("../services/animeBD.service")
-const csvService = require("../utils/csvreader")
+const csvUtil = require("../utils/csvreader")
+const {serieSchema,contentSchema} = require("../schemas/anime")
 const { validateRow } = require("../utils/validateRowsCSV")
 exports.getAllAnimeSeries = async (req, res) => {
     try {
@@ -58,14 +59,12 @@ exports.AddAnimeSerie = async (req, res) => {
     }
 }
 exports.ImportAnimeSeries = async (req, res) => {
-    console.log(req.file.path)
     try {
-        const results = await csvService.readCSV(req.file.path)
+        const results = await csvUtil.readCSV(req.file.path)
         var validacion = {}
         const error = {errores: {}}
         for (const [index, value] of results.data.entries()){
-            validacion = validateRow(value)
-            console.log("values:",index,value)
+            validacion = validateRow(value,serieSchema)
             if(!validacion.success){
                 error.errores[index+1] = validacion.error
             } else {
@@ -81,7 +80,7 @@ exports.ImportAnimeSeries = async (req, res) => {
         }
         return res.status(201).json({info:"Se ha importado."});
     } catch (err) {
-        return res.status(500).json({ error: 'Error al intentar importar.',details: err});
+        return res.status(500).json({ error: 'Error al intentar importar, ver.'});
     }
 
 }
@@ -93,7 +92,37 @@ exports.AddAnimeContent = async (req, res) => {
         return res.status(500).json({ error: 'Error al intentar agregar un contenido de anime.' });
     }
 }
+exports.ImportAnimeContent = async (req, res) => {
+    try {
+        const results = await csvUtil.readCSV(req.file.path)
+        var validacion = {}
+        const error = {errores: {}}
+        for (const [index, value] of results.data.entries()){
+            validacion = validateRow(value,contentSchema)
+            console.log("values:",index,value)
+            if(!validacion.success){
+                error.errores[index+1] = validacion.error
+            } else {
+                try{
+                    const anime = await service.getAnime(value.id_serie)
+                    if (!anime.length){
+                        throw new Error(`No existe una serie con id ${value.id_serie}.`)
+                    }
+                    await service.addAnimeContent(value)
+                } catch (err){
+                    error.errores[index+1] = err.message
+                }
+            }
+        }
+        if (Object.keys(error.errores).length > 0){
+            return res.status(400).json({ error: 'Error al intentar importar, formato incorrecto.',details: error.errores});
+        }
+        return res.status(201).json({info:"Se ha importado."});
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al intentar importar.',details: `${err.name} - ${err.stack}`});
+    }
 
+}
 exports.deleteAnimeSerie = async (req, res) => {
     try {
         const deleted = await service.removeAnime(req.params.id);
@@ -103,6 +132,39 @@ exports.deleteAnimeSerie = async (req, res) => {
         return res.json({info: "Se ha borrado el anime correctamente."});
     } catch (err) {
         return res.status(500).json({ error: 'Error al intentar borrar un anime.' });
+    }
+}
+exports.deleteAnimesFromFile = async (req, res) => {
+    try {
+        const results = await csvUtil.readCSV(req.file.path)
+        if (results.data.length<= 0){
+            return res.status(404).json({ error: 'No se especifican IDs en el archivo.' });
+        }
+        const keys = Object.keys(results.data[0])
+        if (keys.length>1 || keys[0].toLowerCase()!== "id"){
+            return res.status(404).json({ error: 'Formato de columnas incorrecto, debe ser una sola con titulo id.' });
+        }
+        const error = {errores: {}}
+        for (const [index,value] of results.data.entries()){
+            if(!isNaN(value.id) && Number(value.id) > 0 && Number.isInteger(Number(value.id))){
+                try {
+                    const deleted = await service.removeAnime(Number(value.id));
+                    if (!deleted[0].affectedRows){
+                        error.errores[index+1] = "No hay series de anime con el id informado."
+                    }
+                } catch (err){
+                    error.errores[index+1]=`Error al borrar un anime: ${err.stack}.`
+                }
+            } else {
+                error.errores[index+1]=`No se indicó un ID numerico valido.`
+            }
+        }
+        if (Object.keys(error.errores).length > 0){
+            return res.status(400).json({ error: 'Error al intentar borrar animes.',details: error.errores});
+        }
+        return res.status(201).json({info:"Se han borrado los animes correctamente."});
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al intentar borrar un anime.',details: `${err.stack}`});
     }
 }
 exports.deleteAnimeContent = async (req, res) => {
