@@ -2,6 +2,16 @@ const service = require("../services/animeBD.service")
 const csvUtil = require("../utils/csvreader")
 const {serieSchema,contentSchema} = require("../schemas/anime")
 const { validateRow } = require("../utils/validateRowsCSV")
+const z = require("zod")
+
+const strictSerieSchema = serieSchema.extend({
+    id: z.coerce.number().positive()
+})
+
+const strictContentSchema = contentSchema.extend({
+    id: z.coerce.number().positive()
+})
+
 exports.getAllAnimeSeries = async (req, res) => {
     try {
         const animes = await service.getAllAnimes()
@@ -82,8 +92,8 @@ exports.ImportAnimeSeries = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ error: 'Error al intentar importar, ver.'});
     }
-
 }
+
 exports.AddAnimeContent = async (req, res) => {
     try {
         const content = await service.addAnimeContent(req.body)
@@ -226,6 +236,38 @@ exports.updateAnimeSerie = async (req, res) => {
         return res.status(500).json({ error: 'Error al intentar actualizar datos de un anime.' });
     }
 }
+
+exports.updateAnimesFromFile = async (req, res) => {
+    try {
+        const results = await csvUtil.readCSV(req.file.path)
+        var validacion = {}
+        const error = {errores: {}}
+        for (const [index, value] of results.data.entries()){
+            validacion = validateRow(value,strictSerieSchema)
+            if(!validacion.success){
+                error.errores[index+1] = validacion.error
+            } else {
+                try{
+                    const updated = await service.updateAnime(value.id,value)
+                    if (!updated[0].affectedRows){
+                        error.errores[index+1] = "No hay animes con el id informado."
+                    } else if (!updated[0].changedRows){
+                        error.errores[index+1] = "No se hicieron cambios en el anime informado."
+                    }
+                } catch (err){
+                    error.errores[index+1] = err.message
+                }
+            }
+        }
+        if (Object.keys(error.errores).length > 0){
+            return res.status(400).json({ error: 'No se actualizaron animes correctamente: ',details: error.errores});
+        }
+        return res.status(201).json({info:"Se han actualizado los animes."});
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al intentar actualizar animes, ver.'});
+    }
+}
+
 exports.updateAnimeContent = async (req, res) => {
     try {
         const updated = await service.updateContent(req.params.id, req.body);
@@ -239,3 +281,35 @@ exports.updateAnimeContent = async (req, res) => {
         return res.status(500).json({ error: 'Error al intentar actualizar datos de un contenido de anime.' });
     }
 } 
+
+
+exports.updateContentFromFile = async (req, res) => {
+    try {
+        const results = await csvUtil.readCSV(req.file.path)
+        var validacion = {}
+        const error = {errores: {}}
+        for (const [index, value] of results.data.entries()){
+            validacion = validateRow(value,strictContentSchema)
+            if(!validacion.success){
+                error.errores[index+1] = validacion.error
+            } else {
+                try{
+                    const updated = await service.updateContent(value.id,value)
+                    if (!updated[0].affectedRows){
+                        error.errores[index+1] = "No hay contenidos de anime con el id informado."
+                    } else if (!updated[0].changedRows){
+                        error.errores[index+1] = "No se hicieron cambios en el contenido informado."
+                    }
+                } catch (err){
+                    error.errores[index+1] = err.message
+                }
+            }
+        }
+        if (Object.keys(error.errores).length > 0){
+            return res.status(400).json({ error: 'No se actualizaron contenidos correctamente: ',details: error.errores});
+        }
+        return res.status(201).json({info:"Se han actualizado los contenidos."});
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al intentar actualizar contenidos, ver.',details: err.message});
+    }
+}

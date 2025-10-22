@@ -34,7 +34,9 @@ router.delete("/:id",controller.deleteAnimeSerie)
 router.delete("/contents/import",upload.single('file'),validarArchivo(),controller.deleteContentFromFile)
 router.delete("/contents/:id",controller.deleteAnimeContent)
 
+router.put("/import",upload.single('file'),validarArchivo(),controller.updateAnimesFromFile)
 router.put("/:id",validarSerie(),controller.updateAnimeSerie)
+router.put("/contents/import",upload.single('file'),validarArchivo(),controller.updateContentFromFile)
 router.put("/contents/:id",validarContent(),controller.updateAnimeContent)
 
 module.exports = router;
