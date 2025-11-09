@@ -18,7 +18,12 @@ app.use(cors({origin: (origin,callback)=>{
     return callback(new Error(("Error de CORS")))
 }}))
 //app.use(cors())
+app.set('view engine','ejs')
 app.use(express.json())
+app.get("/",(req,res)=>{
+    //res.send("<h1>Hola mundo!</h1>")
+    res.render('example',{name: "Lucas"})
+})
 app.use("/animes/series",seriesRouter)
 app.use("/animes/images",imagesRouter)
 
