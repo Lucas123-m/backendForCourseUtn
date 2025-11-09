@@ -92,6 +92,16 @@ CREATE TABLE `anime_series` (
   `idImage` INT DEFAULT NULL CHECK (idImage > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+--
+-- Tables structures for login
+--
+
+CREATE TABLE IF NOT EXISTS users (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(30) NOT NULL UNIQUE,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Dumping data for table `anime_series`
 --
