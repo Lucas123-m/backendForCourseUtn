@@ -100,6 +100,7 @@ CREATE TABLE `anime_series` (
 CREATE TABLE IF NOT EXISTS users (
   `id` int AUTO_INCREMENT PRIMARY KEY,
   `username` VARCHAR(30) NOT NULL UNIQUE,
+  `pwd` VARCHAR (255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

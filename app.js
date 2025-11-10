@@ -3,7 +3,7 @@ const express = require("express")
 const cors = require("cors")
 const seriesRouter = require("./src/routes/series.routes")
 const imagesRouter = require("./src/routes/images.routes")
-
+const usersRouter = require("./src/routes/users.routes")
 const app = express();
 
 app.use(cors({origin: (origin,callback)=>{
@@ -26,7 +26,7 @@ app.get("/",(req,res)=>{
 })
 app.use("/animes/series",seriesRouter)
 app.use("/animes/images",imagesRouter)
-
+app.use("/users",usersRouter)
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
