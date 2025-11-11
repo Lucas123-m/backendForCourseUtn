@@ -1,5 +1,7 @@
 const serviceBD = require("../services/usersBD.service")
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
 require("dotenv").config()
 
 exports.register = async (req,res)=>{
@@ -15,5 +17,24 @@ exports.register = async (req,res)=>{
         return res.status(200).json({user: username})
     } catch(err) {
         return res.status(404).json({details: err.message})
+    }
+}
+
+exports.login = async (req,res)=>{
+    const {pwd} = req.body
+    try {
+        const resultado = await serviceBD.getUser(req.body)
+        if (resultado[0].length==0){
+            return res.status(404).json({details: "El usuario no existe."})
+        }
+        const user = resultado[0][0]
+        const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET_KEY,{
+            expiresIn: '1h'
+        })
+        console.log(user,user.username  )
+        res.cookie('access_token',token,{maxAge: 1000*60*60})
+        res.status(200).json({usr: user.username,token_value: token})
+    }catch(error){
+        res.status(500).json({err: error.message})
     }
 }

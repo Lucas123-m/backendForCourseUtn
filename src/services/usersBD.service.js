@@ -1,7 +1,7 @@
 const pool = require("../config/db")
 
-exports.getUser = async({id})=>{
-    const rows = pool.query(`SELECT a.id,a.username,a.pwd FROM users a WHERE a.id = ?`,[id])
+exports.getUser = async({username})=>{
+    const rows = pool.query(`SELECT a.id,a.username,a.pwd FROM users a WHERE a.username = ?`,[username])
     return rows
 }
 
