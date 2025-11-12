@@ -14,6 +14,11 @@ exports.register = async (req,res)=>{
         }
         const hashedPwd = await bcrypt.hash(pwd,parseInt(process.env.SEED_HASH))
         const result = await serviceBD.register({username:username,pwd: hashedPwd})
+        const id = result[0].insertId
+        const token = jwt.sign({id: id,username: username},process.env.JWT_SECRET_KEY,{
+            expiresIn: '1h'
+        })
+        res.cookie('access_token',token,{maxAge: 1000*60*60})
         return res.status(200).json({user: username})
     } catch(err) {
         return res.status(404).json({details: err.message})

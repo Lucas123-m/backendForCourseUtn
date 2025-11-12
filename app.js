@@ -26,17 +26,18 @@ app.use(express.json())
 app.get("/",(req,res)=>{
     console.log("cookies:",req.cookies)
     const token = req.cookies.access_token
-    var data = ""
-    if (!token){
-        return res.status(404).send('Access not authorized.')
+    var data = {}
+    if (token){
+        try {
+            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
+        } catch (error) {
+            console.log("Error",error.message)
+        }   
+        return res.render('index',data)
+    } else {
+        return res.render('index')
     }
-    try {
-        data = jwt.verify(token,process.env.JWT_SECRET_KEY)
-    } catch (error) {
-        return res.status(404).send('Error.')
-    }
-    console.log(data)
-    res.render('protected',data)
+
 })
 app.use("/animes/series",seriesRouter)
 app.use("/animes/images",imagesRouter)
