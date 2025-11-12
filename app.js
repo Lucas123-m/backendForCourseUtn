@@ -2,6 +2,8 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+
 const seriesRouter = require("./src/routes/series.routes")
 const imagesRouter = require("./src/routes/images.routes")
 const usersRouter = require("./src/routes/users.routes")
@@ -22,14 +24,14 @@ app.use(cookieParser())
 app.set('view engine','ejs')
 app.use(express.json())
 app.get("/",(req,res)=>{
-    //res.send("<h1>Hola mundo!</h1>")
     console.log("cookies:",req.cookies)
     const token = req.cookies.access_token
+    var data = ""
     if (!token){
         return res.status(404).send('Access not authorized.')
     }
     try {
-        const data = jwt.verify(token,process.env.JWT_SECRET_KEY)
+        data = jwt.verify(token,process.env.JWT_SECRET_KEY)
     } catch (error) {
         return res.status(404).send('Error.')
     }

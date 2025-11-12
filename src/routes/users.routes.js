@@ -9,7 +9,7 @@ router.get("/",(req,res)=>{
 router.get("/prueba",(req,res)=>{
     /*res.cookie('prueba','Holaaa',{httpOnly:false,maxAge: 1000*60*60,secure: true,
         sameSite: 'none',})*/
-    res.cookie("cookie-pro-2","cookie")
+    res.cookie("name","Lucas")
     res.send('cookie enviada')
 })
 router.post("/register",controller.register)
