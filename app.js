@@ -7,7 +7,7 @@ const imagesRouter = require("./src/routes/images.routes")
 const usersRouter = require("./src/routes/users.routes")
 const app = express();
 
-/*app.use(cors({origin: (origin,callback)=>{
+app.use(cors({origin: (origin,callback)=>{
     const optionsOrigin = ['http://localhost:5173','http://localhost:3000']
     if (optionsOrigin.some((elem)=>elem===origin)){
         return callback(null,true)
@@ -17,11 +17,8 @@ const app = express();
         return callback(null,true)
     }
     return callback(new Error(("Error de CORS")))
-},
-credentials: true
-}))*/
+}}))
 app.use(cookieParser())
-//app.use(cors({credentials: true }))
 app.set('view engine','ejs')
 app.use(express.json())
 app.get("/",(req,res)=>{
