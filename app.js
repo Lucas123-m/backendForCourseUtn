@@ -21,7 +21,7 @@ const app = express();
 credentials: true
 }))*/
 app.use(cookieParser())
-app.use(cors({credentials: true }))
+//app.use(cors({credentials: true }))
 app.set('view engine','ejs')
 app.use(express.json())
 app.get("/",(req,res)=>{
@@ -45,6 +45,6 @@ app.use("/users",usersRouter)
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en https://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
 
