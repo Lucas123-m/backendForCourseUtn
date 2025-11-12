@@ -101,12 +101,13 @@
         <% } %>
     </div>
     <script>
+        console.log("Aca llega al menos")
         const $ = el =>document.querySelector(el)
-        const loginForm = $('login-form')
-        const loginSpan = $('login-form span')
+        const loginForm = $('#login-form')
+        const loginSpan = $('#login-form span')
 
-        const registerForm = $('register-form')
-        const registerSpan = $('register-form span')
+        const registerForm = $('#register-form')
+        const registerSpan = $('#register-form span')
 
         const logoutButton = $('#close-session')
 
@@ -137,24 +138,26 @@
             const username = $('#register-username')
             const password = $('#register-password')
             const confirmPassword = $('#register-confirm-password')
-            if (password != confirmPassword){
+
+            if (password.value != confirmPassword.value){
                 alert('Passwords no dot match')
                 return
             }
+
             fetch('/users/register',{
-                method: 'PoST',
+                method: 'POST',
                 headers: {'Content-Type':'Application/json'},
-                body: JSON.stringify({username,password})
+                body: JSON.stringify({username: username.value,password: password.value})
             }).then(res => {
                 if (res.ok){
-                    loginSpan.innerText = "Usuario registrado, entrando..."
-                    loginSpan.style.color = "green"
+                    registerSpan.innerText = "Usuario registrado, entrando..."
+                    registerSpan.style.color = "green"
                     setTimeout(()=>{
                         window.location.href = "/protected"
                     },2000)
                 } else {
-                    loginSpan.innerText = "Error al registrar usuario."
-                    loginSpan.style.color = "red"
+                    registerSpan.innerText = "Error al registrar usuario."
+                    registerSpan.style.color = "red"
                 }
             })
         })
@@ -165,7 +168,9 @@
                 headers: {'Content-Type':'Application/json'}
             }).then(res => {
                 console.log(res)
-                window.location.href = "/"
+                setTimeout(()=>{
+                        window.location.href = "/"
+                },10000)
             })
         })
     </script>
