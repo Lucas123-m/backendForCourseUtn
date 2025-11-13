@@ -2,8 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const cookieParser = require('cookie-parser')
-const jwt = require('jsonwebtoken')
-
+const path = require('path')
 const seriesRouter = require("./src/routes/series.routes")
 const imagesRouter = require("./src/routes/images.routes")
 const usersRouter = require("./src/routes/users.routes")
@@ -23,48 +22,15 @@ app.use(cors({origin: (origin,callback)=>{
 app.use(express.json())
 app.use(cookieParser())
 app.set('view engine','ejs')
-app.get("/",(req,res)=>{
-    const token = req.cookies.access_token
-    var data = {}
-    if (token){
-        try {
-            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
-        } catch (error) {
-            console.log("Error",error.message)
-        }   
-        return res.render('index',data)
-    } else {
-        return res.render('index')
-    }
-})
-app.get("/protected",(req,res)=>{
-    const token = req.cookies.access_token
-    var data = {}
-    console.log(token)
-    if (token){
-        try {
-            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
-            console.log(data)
-        } catch (error) {
-            console.log("Error",error.message)
-        }   
-        return res.render('protected',data)
-    } else {
-        return res.render('protected')
-    }
-})
-app.post("/logout",(req,res)=>{
-    const token = req.cookies.access_token
-    if (token == undefined) {
-        return res.status(500).send("Error al borrar sesion")
-    }
-    res.clearCookie("access_token")
-    res.send("Sesion cerrada correctamente")
-})
+app.set('views',path.join(__dirname,'views'))
 app.use("/animes/series",seriesRouter)
 app.use("/animes/images",imagesRouter)
 app.use("/users",usersRouter)
 const PORT = process.env.PORT || 3000;
+
+app.get("/",(req,res)=>{
+    res.redirect("/users")
+})
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);

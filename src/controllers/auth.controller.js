@@ -42,3 +42,45 @@ exports.login = async (req,res)=>{
         res.status(500).json({err: error.message})
     }
 }
+
+exports.renderInitialPage = async (req,res)=>{
+    const token = req.cookies.access_token
+    var data = {}
+    if (token){
+        try {
+            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
+            console.log(data)
+        } catch (error) {
+            console.log("Error",error.message)
+        }   
+        return res.render('index',data)
+    } else {
+        return res.render('index')
+    }
+}
+
+exports.renderProtected = async(req,res)=>{
+    const token = req.cookies.access_token
+    var data = {}
+    console.log(token)
+    if (token){
+        try {
+            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
+            console.log(data)
+        } catch (error) {
+            console.log("Error",error.message)
+        }   
+        return res.render('protected',data)
+    } else {
+        return res.render('protected')
+    }
+}
+
+exports.deleteCookieSession = async (req,res)=>{
+    const token = req.cookies.access_token
+    if (token == undefined) {
+        return res.status(500).send("Error al borrar sesion")
+    }
+    res.clearCookie("access_token")
+    res.send("Sesion cerrada correctamente")
+}
