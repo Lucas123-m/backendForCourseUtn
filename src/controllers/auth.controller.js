@@ -44,36 +44,16 @@ exports.login = async (req,res)=>{
 }
 
 exports.renderInitialPage = async (req,res)=>{
-    const token = req.cookies.access_token
-    var data = {}
-    if (token){
-        try {
-            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
-            console.log(data)
-        } catch (error) {
-            console.log("Error",error.message)
-        }   
-        return res.render('index',data)
-    } else {
-        return res.render('index')
-    }
+    return res.render('index',req.data)
 }
 
 exports.renderProtected = async(req,res)=>{
-    const token = req.cookies.access_token
-    var data = {}
-    console.log(token)
-    if (token){
-        try {
-            data = jwt.verify(token,process.env.JWT_SECRET_KEY)
-            console.log(data)
-        } catch (error) {
-            console.log("Error",error.message)
-        }   
-        return res.render('protected',data)
+    if(req.data){
+        res.render('protected',req.data)
     } else {
-        return res.render('protected')
+        res.status(404).send("Se debe iniciar sesion para entrar a esta pagina")
     }
+    return
 }
 
 exports.deleteCookieSession = async (req,res)=>{
