@@ -54,7 +54,7 @@ app.get("/protected",(req,res)=>{
     }
 })
 app.post("/logout",(req,res)=>{
-    const token = req.cookies.token_falso
+    const token = req.cookies.access_token
     if (token == undefined) {
         return res.status(500).send("Error al borrar sesion")
     }

@@ -7,7 +7,6 @@ require("dotenv").config()
 exports.register = async (req,res)=>{
     try{
         const {username,password} = req.body
-        console.log("datos recibidos register:",username,password,req.body)
         const validation = await serviceBD.getUser(req.body.username)
         if (validation[0].length>0){
             return res.status(404).json({details: "El usuario ya existe."})

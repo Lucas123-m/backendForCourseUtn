@@ -68,7 +68,7 @@
             <div class="form-container">
                 <h2>Hola <% username %>! </h2>
                 <p>Estas en el panel de administracion</p>
-                <button id="close-session">Cerrarsesion</button>
+                <button id="close-session">Cerrar sesion</button>
             </div>
         <% } else { %>
             <div class="form-container">
@@ -117,9 +117,9 @@
             const password = $('#login-password')
 
             fetch('/users/login',{
-                method: 'PoST',
+                method: 'POST',
                 headers: {'Content-Type':'Application/json'},
-                body: JSON.stringify({username,password})
+                body: JSON.stringify({username: username.value,password: password.value})
             }).then(res => {
                 if (res.ok){
                     loginSpan.innerText = "Session iniciada, entrando..."
@@ -167,10 +167,10 @@
                 method:'POST',
                 headers: {'Content-Type':'Application/json'}
             }).then(res => {
-                console.log(res)
+                console.log("respuesta:",res)
                 setTimeout(()=>{
                         window.location.href = "/"
-                },10000)
+                },1000)
             })
         })
     </script>
