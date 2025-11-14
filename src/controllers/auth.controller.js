@@ -64,3 +64,7 @@ exports.deleteCookieSession = async (req,res)=>{
     res.clearCookie("access_token")
     res.send("Sesion cerrada correctamente")
 }
+
+exports.checkCookie = async (req,res)=>{
+    return res.status(200).json({cookie: req.data})
+}
