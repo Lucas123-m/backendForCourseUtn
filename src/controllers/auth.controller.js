@@ -36,7 +36,7 @@ exports.login = async (req,res)=>{
             expiresIn: '1h'
         })
         console.log(user,user.username  )
-        res.cookie('access_token',token,{maxAge: 1000*60*60})
+        res.cookie('access_token',token,{maxAge: 1000*60*60,httpOnly:true,SameSite:'lax',secure: false})
         res.status(200).json({usr: user.username,token_value: token})
     }catch(error){
         res.status(500).json({err: error.message})
