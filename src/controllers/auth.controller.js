@@ -66,5 +66,8 @@ exports.deleteCookieSession = async (req,res)=>{
 }
 
 exports.checkCookie = async (req,res)=>{
+    if (Object.keys(req.data).length === 0){
+        return res.status(404).json({info:"No hay cookies o no es valida."})
+    }
     return res.status(200).json({cookie: req.data})
 }
