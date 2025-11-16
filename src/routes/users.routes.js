@@ -5,7 +5,7 @@ const {validarCookie} = require("../middlewares/validarCookie")
 
 router.get("/cookie",validarCookie(),controller.checkCookie)
 router.get("/protected",validarCookie(),controller.renderProtected)
-router.post("/logout",controller.deleteCookieSession)
+router.post("/logout",validarCookie(),controller.deleteCookieSession)
 router.post("/register",controller.register)
 router.post("/login",controller.login)
 

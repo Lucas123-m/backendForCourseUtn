@@ -33,15 +33,15 @@ exports.login = async (req,res)=>{
         }
         console.log("resultado",resultado[0])
         const user = resultado[0][0]
-        const hashedPassword = user.pwd
-        await bcrypt.compare(pwd, hashedPassword).catch(
+        //const hashedPassword = user.pwd
+        /*await bcrypt.compare(pwd, hashedPassword).catch(
             ()=> res.status(401).json({ error: 'Credenciales inválidas' })
-        );
+        );*/
 
         const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET_KEY,{
             expiresIn: '1h'
         })
-        console.log(passwordMatch)
+        console.log("token creado:",token)
         res.cookie('access_token',token,{maxAge: 1000*60*60,httpOnly:true,sameSite:'None',secure: true})
         res.status(200).json({usr: user.username,token_value: token})
     }catch(error){
@@ -59,7 +59,7 @@ exports.renderProtected = async(req,res)=>{
 }
 
 exports.deleteCookieSession = async (req,res)=>{
-    const token = req.cookies.access_token
+    const token = req.data
     if (token == undefined) {
         return res.status(500).send("Error al borrar sesion")
     }
