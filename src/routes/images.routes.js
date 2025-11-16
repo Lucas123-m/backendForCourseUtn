@@ -7,6 +7,7 @@ const controller = require("../controllers/images.controller")
 const { validarID } = require("../middlewares/validarID")
 const { validarCamposObligatorios } = require("../middlewares/validarCampos")
 const { validarSesion } = require("../middlewares/auth/validarSesion");
+const { autorizarAccion } = require("../middlewares/auth/autorizarAccionSegunRol");
 
 router.get("/",controller.getImages)
 router.get("/all",controller.getImagesRemote)
@@ -18,7 +19,7 @@ router.delete("/",controller.deleteAllImages)
 router.delete("/:id",validarID(),controller.deleteImage)
 
 router.use(upload.single('file'),validarCamposObligatorios(["name"]))
-router.post("/",controller.AddImage)
+router.post("/",autorizarAccion("image:add"),controller.AddImage)
 router.put("/:id",validarID(),controller.updateImage)
 
 module.exports = router
