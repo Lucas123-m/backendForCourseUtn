@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS anime_content,anime_series,anime_images;
+DROP TABLE IF EXISTS anime_content,anime_series,anime_images,permissions_role,users_role,permissions,roles,users;
 
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
@@ -97,11 +97,73 @@ CREATE TABLE `anime_series` (
 -- Tables structures for login
 --
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   `id` int AUTO_INCREMENT PRIMARY KEY,
   `username` VARCHAR(30) NOT NULL UNIQUE,
   `pwd` VARCHAR (255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE roles (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE users_role (
+  `id_user` INT AUTO_INCREMENT NOT NULL,
+  `id_role` INT NOT NULL,
+  PRIMARY KEY (`id_user`,`id_role`),
+  FOREIGN KEY (`id_user`) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (`id_role`) REFERENCES roles(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE permissions (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE table permissions_role (
+  `id_permission` INT NOT NULL,
+  `id_role` INT NOT NULL,
+  PRIMARY KEY (`id_permission`,`id_role`),
+  FOREIGN KEY (`id_permission`) REFERENCES permissions(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (`id_role`) REFERENCES roles(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE    
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+--
+-- Creating triggers for login
+-- 
+
+DELIMITER $$
+
+CREATE TRIGGER `user_basic_permission` 
+AFTER INSERT 
+ON `users`
+FOR EACH ROW 
+BEGIN
+  INSERT INTO `users_role` (`id_user`,`id_role`) VALUES (NEW.id,1);
+END$$
+
+CREATE TRIGGER `new_permission_for_admin` 
+AFTER INSERT 
+ON `permissions`
+FOR EACH ROW 
+BEGIN 
+  INSERT INTO `permissions_role` (`id_permission`,`id_role`) VALUES (NEW.id,1);
+END$$
+
+DELIMITER ;
+
+INSERT INTO `roles` (`id`,`name`) VALUES (1,'ADMIN'),(2,'BASIC');
+INSERT INTO `permissions` (`name`) VALUES ('image:add'),('image:delete'),('image:update'),('anime:add'),('anime:delete'),('anime:update'),('anime:import');
 
 --
 -- Dumping data for table `anime_series`
