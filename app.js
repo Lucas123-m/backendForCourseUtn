@@ -26,11 +26,8 @@ app.set('views',path.join(__dirname,'views'))
 app.use("/animes/series",seriesRouter)
 app.use("/animes/images",imagesRouter)
 app.use("/users",usersRouter)
-const PORT = process.env.PORT || 3000;
 
-app.get("/",(req,res)=>{
-    res.redirect("/users")
-})
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);

@@ -43,10 +43,6 @@ exports.login = async (req,res)=>{
     }
 }
 
-exports.renderInitialPage = async (req,res)=>{
-    return res.render('index',req.data)
-}
-
 exports.renderProtected = async(req,res)=>{
     if(req.data){
         res.render('protected',req.data)
