@@ -25,7 +25,8 @@ exports.register = async (req,res)=>{
 }
 
 exports.login = async (req,res)=>{
-    const {pwd} = req.body
+    const {password} = req.body
+
     try {
         const resultado = await serviceBD.getUser(req.body)
         if (resultado[0].length==0){
@@ -33,11 +34,12 @@ exports.login = async (req,res)=>{
         }
         console.log("resultado",resultado[0])
         const user = resultado[0][0]
-        //const hashedPassword = user.pwd
-        /*await bcrypt.compare(pwd, hashedPassword).catch(
-            ()=> res.status(401).json({ error: 'Credenciales inválidas' })
-        );*/
+        const hashedPassword = user.pwd
+        const passwordMatch =  bcrypt.compareSync(password, hashedPassword)
 
+        if (!passwordMatch){
+            return res.status(401).json({ error: 'Credenciales inválidas'})
+        }
         const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET_KEY,{
             expiresIn: '1h'
         })
