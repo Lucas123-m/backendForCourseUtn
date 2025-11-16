@@ -8,7 +8,6 @@ exports.validateRow = (row,schema)=>{
             delete data[key]
         }
     }
-    console.log("schema:",schema)
     const result = schema.safeParse(row)
     if(!result.success){
         return {success:false, error:result.error.issues} //issues print prettier in response!  
@@ -24,7 +23,6 @@ exports.validateID = (row)=>{
             delete data[key]
         }
     }
-    console.log("schema:",schema)
     const result = schema.safeParse(row)
     if(!result.success){
         return {success:false, error:result.error.issues} //issues print prettier in response!  

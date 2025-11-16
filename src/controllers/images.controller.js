@@ -14,7 +14,6 @@ exports.getImagesRemote = async (req, res) => {
         const images = await serviceCloudinary.getAllRemoteImages()
         return res.json({images:images})
     } catch (err) {
-        console.log(err)
         return res.status(500).json({ error: 'Error al obtener imagenes cloudinary.'});
     }
 }

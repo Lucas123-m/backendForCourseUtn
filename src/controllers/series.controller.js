@@ -109,7 +109,6 @@ exports.ImportAnimeContent = async (req, res) => {
         const error = {errores: {}}
         for (const [index, value] of results.data.entries()){
             validacion = validateRow(value,contentSchema)
-            console.log("values:",index,value)
             if(!validacion.success){
                 error.errores[index+1] = validacion.error
             } else {

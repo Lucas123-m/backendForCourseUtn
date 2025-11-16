@@ -4,7 +4,6 @@ exports.validarCookie = ()=>{
     return (req,res,next)=>{
         const token = req.cookies.access_token
         data = {}
-        console.log("aca llega")
         if (token){
             try {
                 data = jwt.verify(token,process.env.JWT_SECRET_KEY)
@@ -20,7 +19,6 @@ exports.validarCookie = ()=>{
                 error: "No hay una sesion activa.",
             })
         }
-        console.log("aca llega")
         req.data = data
         next()
     }   

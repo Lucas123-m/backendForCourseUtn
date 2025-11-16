@@ -32,7 +32,7 @@ exports.login = async (req,res)=>{
         if (resultado[0].length==0){
             return res.status(404).json({details: "El usuario no existe."})
         }
-        console.log("resultado",resultado[0])
+
         const user = resultado[0][0]
         const hashedPassword = user.pwd
         const passwordMatch =  bcrypt.compareSync(password, hashedPassword)
@@ -43,7 +43,7 @@ exports.login = async (req,res)=>{
         const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET_KEY,{
             expiresIn: '1h'
         })
-        console.log("token creado:",token)
+
         res.cookie('access_token',token,{maxAge: 1000*60*60,httpOnly:true,sameSite:'None',secure: true})
         res.status(200).json({usr: user.username,token_value: token})
     }catch(error){
