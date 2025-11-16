@@ -16,13 +16,15 @@ const upload = multer({
 const { validarSerie } = require("../middlewares/validarSerie")
 const { validarContent } = require("../middlewares/validarContent")
 const { validarArchivo } = require("../middlewares/validarArchivo")
-const controller = require("../controllers/series.controller")
+const controller = require("../controllers/series.controller");
+const { validarSesion } = require("../middlewares/validarSesion");
 
 router.get("/",controller.getAllAnimeSeries)
 router.get("/contents",controller.getAllAnimeContent)
 router.get("/:id",controller.getOneAnimeSerie)
 router.get("/contents/:id",controller.getOneAnimeContent)
 
+router.use(validarSesion()) //Aplica a todas las rutas, dejar los .get ANTES.
 router.post("/",validarSerie(),controller.AddAnimeSerie)
 router.post("/import",upload.single('file'),validarArchivo(),controller.ImportAnimeSeries)
 router.post("/contents",validarContent(),controller.AddAnimeContent)

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-exports.validarCookie = ()=>{
+exports.validarSesion = ()=>{
     return (req,res,next)=>{
         const token = req.cookies.access_token
         data = {}
