@@ -17,9 +17,8 @@ router.use(validarSesion()) //Aplica a todas las rutas, dejar los .get ANTES.
 router.delete("/",controller.deleteAllImages)
 router.delete("/:id",validarID(),controller.deleteImage)
 
-router.use(validarCamposObligatorios(["name"]))
-
-router.post("/",upload.single('file'),controller.AddImage)
-router.put("/:id",upload.single('file'),validarID(),controller.updateImage)
+router.use(upload.single('file'),validarCamposObligatorios(["name"]))
+router.post("/",controller.AddImage)
+router.put("/:id",validarID(),controller.updateImage)
 
 module.exports = router

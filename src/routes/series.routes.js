@@ -18,6 +18,7 @@ const { validarContent } = require("../middlewares/schema/validarContent")
 const { validarArchivo } = require("../middlewares/validarArchivo")
 const controller = require("../controllers/series.controller");
 const { validarSesion } = require("../middlewares/auth/validarSesion");
+const { autorizarRol } = require("../middlewares/auth/autorizarAccionSegunRol");
 
 router.get("/",controller.getAllAnimeSeries)
 router.get("/contents",controller.getAllAnimeContent)
