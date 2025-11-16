@@ -15,7 +15,7 @@ exports.validarCookie = ()=>{
                 
             }   
         } else {
-            res.status(404).json({
+            return res.status(404).json({
                 error: "No hay una sesion activa.",
             })
         }
