@@ -31,12 +31,18 @@ exports.login = async (req,res)=>{
         if (resultado[0].length==0){
             return res.status(404).json({details: "El usuario no existe."})
         }
+        console.log("resultado",resultado[0])
         const user = resultado[0][0]
+        const hashedPassword = user.pwd
+        await bcrypt.compare(pwd, hashedPassword).catch(
+            ()=> res.status(401).json({ error: 'Credenciales inválidas' })
+        );
+
         const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET_KEY,{
             expiresIn: '1h'
         })
-        console.log(user,user.username  )
-        res.cookie('access_token',token,{maxAge: 1000*60*60,httpOnly:true,SameSite:'lax',secure: false})
+        console.log(passwordMatch)
+        res.cookie('access_token',token,{maxAge: 1000*60*60,httpOnly:true,sameSite:'None',secure: true})
         res.status(200).json({usr: user.username,token_value: token})
     }catch(error){
         res.status(500).json({err: error.message})

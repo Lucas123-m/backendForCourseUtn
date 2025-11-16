@@ -12,7 +12,6 @@ exports.validarCookie = ()=>{
                     error: "Error en validacion de cookie",
                     details: error.message
                 })
-                setTimeout(()=>res.redirect('/users'),3000)
                 return
             }   
         }
