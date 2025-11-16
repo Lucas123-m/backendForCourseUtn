@@ -1,4 +1,4 @@
-const { contentSchema } = require("../schemas/anime")
+const { contentSchema } = require("../../schemas/anime")
 
 exports.validarContent = ()=>{    
     return (req,res,next)=>{

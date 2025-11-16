@@ -1,8 +1,8 @@
-const { serieSchema }  = require("../schemas/anime")
+const {userSchema} = require("../../schemas/user")
 
-exports.validarSerie = ()=>{    
+exports.validarUser = ()=>{
     return (req,res,next)=>{
-        const result = serieSchema.safeParse(req.body)
+        const result = userSchema.safeParse(req.body)
         if(!result.success){
             return res.status(400).json({
                 error: "Error en validacion de campos",
