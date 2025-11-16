@@ -149,7 +149,7 @@ AFTER INSERT
 ON `users`
 FOR EACH ROW 
 BEGIN
-  INSERT INTO `users_role` (`id_user`,`id_role`) VALUES (NEW.id,1);
+  INSERT INTO `users_role` (`id_user`,`id_role`) VALUES (NEW.id,2);
 END$$
 
 CREATE TRIGGER `new_permission_for_admin` 
