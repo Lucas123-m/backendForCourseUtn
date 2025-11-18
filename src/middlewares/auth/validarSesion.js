@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 exports.validarSesion = ()=>{
     return (req,res,next)=>{
         const token = req.cookies.access_token
+
         data = {}
         if (token){
             try {

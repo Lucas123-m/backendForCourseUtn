@@ -1,6 +1,6 @@
 const serviceBD = require("../../services/usersBD.service")
 
-exports.autorizarAccion = (action)=>{
+exports.validarPermiso = (action)=>{
     return async (req,res,next)=>{
         const result = await serviceBD.getUserAndPermission({permission: action,username: req.data.username})
         if (result[0].length===0)

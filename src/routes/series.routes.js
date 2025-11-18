@@ -18,7 +18,7 @@ const { validarContent } = require("../middlewares/schema/validarContent")
 const { validarArchivo } = require("../middlewares/validarArchivo")
 const controller = require("../controllers/series.controller");
 const { validarSesion } = require("../middlewares/auth/validarSesion");
-const { autorizarRol } = require("../middlewares/auth/autorizarAccionSegunRol");
+const { validarPermiso } = require("../middlewares/auth/autorizarAccionSegunPermiso");
 
 router.get("/",controller.getAllAnimeSeries)
 router.get("/contents",controller.getAllAnimeContent)
@@ -26,20 +26,23 @@ router.get("/:id",controller.getOneAnimeSerie)
 router.get("/contents/:id",controller.getOneAnimeContent)
 
 router.use(validarSesion()) //Aplica a todas las rutas, dejar los .get ANTES.
+//router.post(validarPermiso("anime:add"))
+router.post("/",validarPermiso("anime:add"),validarSerie(),controller.AddAnimeSerie)
+router.post("/import",upload.single('file'),validarArchivo(),validarPermiso("anime:add"),controller.ImportAnimeSeries)
 
-router.post("/",validarSerie(),controller.AddAnimeSerie)
-router.post("/import",upload.single('file'),validarArchivo(),controller.ImportAnimeSeries)
-router.post("/contents",validarContent(),controller.AddAnimeContent)
-router.post("/contents/import",upload.single('file'),validarArchivo(),controller.ImportAnimeContent)
+router.post("/contents",validarPermiso("anime:add"),validarContent(),controller.AddAnimeContent)
+router.post("/contents/import",upload.single('file'),validarArchivo(),validarPermiso("anime:add"),controller.ImportAnimeContent)
 
-router.delete("/import",upload.single('file'),validarArchivo(),controller.deleteAnimesFromFile)
-router.delete("/:id",controller.deleteAnimeSerie)
-router.delete("/contents/import",upload.single('file'),validarArchivo(),controller.deleteContentFromFile)
-router.delete("/contents/:id",controller.deleteAnimeContent)
+router.delete("/import",upload.single('file'),validarArchivo(),validarPermiso("anime:delete"),controller.deleteAnimesFromFile)
+router.delete("/:id",validarPermiso("anime:delete"),controller.deleteAnimeSerie)
 
-router.put("/import",upload.single('file'),validarArchivo(),controller.updateAnimesFromFile)
-router.put("/:id",validarSerie(),controller.updateAnimeSerie)
-router.put("/contents/import",upload.single('file'),validarArchivo(),controller.updateContentFromFile)
-router.put("/contents/:id",validarContent(),controller.updateAnimeContent)
+router.delete("/contents/import",upload.single('file'),validarArchivo(),validarPermiso("anime:delete"),controller.deleteContentFromFile)
+router.delete("/contents/:id",validarPermiso("anime:delete"),controller.deleteAnimeContent)
+
+router.put("/import",upload.single('file'),validarArchivo(),validarPermiso("anime:update"),controller.updateAnimesFromFile)
+router.put("/:id",validarPermiso("anime:update"),validarSerie(),controller.updateAnimeSerie)
+
+router.put("/contents/import",upload.single('file'),validarArchivo(),validarPermiso("anime:update"),controller.updateContentFromFile)
+router.put("/contents/:id",validarPermiso("anime:update"),validarContent(),controller.updateAnimeContent)
 
 module.exports = router;
